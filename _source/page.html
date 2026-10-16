@@ -711,7 +711,7 @@ function drawScatter(P,rows,sum){
   const order=pts.slice().sort((a,b)=>b.r.revenue-a.r.revenue);
   const crowded=pts.length>16;
   const leaders=g.insert('g',':first-child');
-  if(crowded){
+  const numberAll=()=>{
     // many products: every dot becomes a numbered bubble (number = rank in 商品營業額排行),
     // bubbles are nudged apart so none overlap, and a thin line points back to the true position
     g.selectAll('circle.d').attr('r',2.5).attr('fill-opacity',1).attr('stroke','none').style('pointer-events','none');
@@ -738,7 +738,9 @@ function drawScatter(P,rows,sum){
       li.on('pointerenter',()=>hl(d.n,true)).on('pointerleave',()=>hl(d.n,false));
     });
     $('#sc-note').textContent=(useSt?'虛線為整檔平均售出率與商品營業額中位數。':'這份資料沒有下單量，改用銷售數。')+'圓點數字＝營業額排名（同下方「商品營業額排行」），滑過圓點或清單會互相標亮。';
-  } else {
+  };
+  let fits=true;
+  if(!crowded){
   const fs=12, lh2=15;
   order.forEach((p)=>{
     const t=g.append('text').attr('class','lbl').style('font-size',fs+'px').text(short(p.r.product).slice(pre.length)||short(p.r.product));
@@ -757,7 +759,7 @@ function drawScatter(P,rows,sum){
         if(!hit(b)){chosen={x:lx,y:ly,a,b,far:ring>0};break outer;}
       }
     }
-    if(!chosen){const right=p.cx+R+gap+w<W-4;const lx=right?p.cx+R+gap:p.cx-R-gap;chosen={x:lx,y:p.cy,a:right?'start':'end',b:{x0:right?lx:lx-w,x1:right?lx+w:lx,y0:p.cy-lh2/2,y1:p.cy+lh2/2}};}
+    if(!chosen){fits=false;t.remove();return;}
     boxes.push(chosen.b);
     t.attr('x',chosen.x).attr('y',chosen.y).attr('dy','0.32em').attr('text-anchor',chosen.a);
     if(chosen.far){
@@ -766,6 +768,8 @@ function drawScatter(P,rows,sum){
     }
   });
   }
+  // if any name can't sit clear of the others, number every dot instead (no overlapping text)
+  if(crowded||!fits){g.selectAll('text.lbl').remove();leaders.selectAll('*').remove();numberAll();}
   if(pre){g.append('text').attr('x',ml).attr('y',H-4).attr('text-anchor','start').text(`品名省略「${pre}」`);}
 }
 
