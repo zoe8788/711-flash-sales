@@ -1,0 +1,796 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7-11 快閃購營業額看板｜我適文創</title><meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600&family=Noto+Serif+TC:wght@400&display=swap" rel="stylesheet">
+<script src="d3.min.js"></script>
+<style>
+:root{--color-fg:#1f1e1b;--color-fg-muted:#6b6862;--color-bg:#ffffff;--color-panel:#f7f6f3;--color-border-line:#e4e1da;
+--color-ok:#1f7a4d;--color-warn:#a8650a;--color-bad:#c0392b;
+--cds-border:#e4e1da;--cds-chart-axis:#b5b1a8;--cds-chart-grid:#ecebe6;--cds-chart-muted:#c9c6bf;--cds-chart-reference:#8a867d;
+--cds-surface-popover:#ffffff;--cds-text-secondary:#6b6862;--cds-shadow-popover:0 6px 24px rgba(0,0,0,.14);
+--cds-font-size-caption:.8125rem;--cds-font-size-body:.9375rem;--cds-font-size-heading:1.0625rem;--cds-font-size-title:1.5rem;--cds-font-weight-medium:600;
+--cds-gap-xs:.25rem;--cds-gap-sm:.5rem;--cds-gap-md:1rem;--cds-gap-lg:1.5rem;--cds-gap-xl:2rem;
+--cds-pad-xs:.25rem;--cds-pad-sm:.5rem;--cds-pad-md:.75rem;--cds-pad-lg:1.25rem;--cds-pad-xl:2rem;--cds-radius:10px;--cds-dur-slow:.3s;
+--font-anthropic-sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;--font-anthropic-serif:"Noto Serif TC","PingFang TC",Georgia,serif}
+@media (prefers-color-scheme:dark){:root{--color-fg:#ecebe6;--color-fg-muted:#a8a49b;--color-bg:#1b1a18;--color-panel:#24231f;--color-border-line:#3a3833;
+--color-ok:#5cc28d;--color-warn:#e3a54a;--color-bad:#ef7564;--cds-border:#3a3833;--cds-chart-axis:#6b6862;--cds-chart-grid:#2f2d29;--cds-chart-muted:#55524b;--cds-chart-reference:#9a968c;
+--cds-surface-popover:#2a2925;--cds-text-secondary:#a8a49b}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans)}
+#dash-root{max-width:1400px;margin:0 auto;padding:24px clamp(16px,3vw,40px) 48px;box-sizing:border-box}
+.dash-skeleton{color:transparent!important;background:var(--color-panel);border-radius:6px}
+.fs-pubnote{font-size:.8125rem;color:var(--color-fg-muted);margin-top:-8px}
+</style><script>
+(function(){
+  const COLORS=['#3b6fd8','#e07b39','#2a9d8f','#c2547a','#8a6fd1','#b8a032','#5b8c3a','#7a7a7a'];
+  let DATA=null,status='loading',params=Object.assign({},{"campaign": "miffy-2503"}),cbs=[],calcs={},cache={};
+  try{const u=new URLSearchParams(location.search).get('c');if(u)params.campaign=u;}catch(e){}
+  function rows(id){if(status!=='ok')return null;if(DATA[id])return DATA[id];if(calcs[id]){if(!(id in cache)){const c=calcs[id];cache[id]=c.fn(...c.inputs.map(rows));}return cache[id];}return null;}
+  window.dash={colors:COLORS,
+    data(id){if(status!=='ok')return{status,data:[],columns:[]};const r=rows(id);return r?{status:'ok',data:r,columns:r.length?Object.keys(r[0]):[]}:{status:'missing',data:[]};},
+    calc(id,o){calcs[id]=o;},loader(){},
+    onData(fn){cbs.push(fn);try{fn();}catch(e){console.error(e);}},
+    params(){return Object.assign({},params);},
+    setParams(p){Object.assign(params,p);try{const u=new URL(location.href);if(params.campaign)u.searchParams.set('c',params.campaign);history.replaceState(null,'',u);}catch(e){}run();},
+    resetParams(){},setLink(){},refresh(){}};
+  function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
+  let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
+  fetch('data/data.json?v=887ca91b').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+})();
+</script></head><body><div id="dash-root"><style>
+#dash-root [hidden]{display:none!important}
+.fs{position:relative;display:flex;flex-direction:column;gap:var(--cds-gap-lg);font-family:var(--font-anthropic-sans);font-size:1.0625rem;line-height:1.55;color:var(--color-fg)}
+.fs-head h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:calc(var(--cds-font-size-title) * 1.25);margin:0 0 var(--cds-gap-xs)}
+.fs-take{margin:0;color:var(--color-fg-muted);font-size:var(--cds-font-size-heading)}
+.fs-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0}
+.fs-card h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.fs-note{color:var(--color-fg-muted);font-size:var(--cds-font-size-body);margin:var(--cds-gap-xs) 0 var(--cds-gap-md)}
+.fs-cap{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,24rem),1fr));gap:var(--cds-gap-md)}
+.fs-btn{font:inherit;font-size:var(--cds-font-size-body);padding:var(--cds-pad-xs) var(--cds-pad-sm);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-bg);color:var(--color-fg);cursor:pointer}
+.fs-btn:hover{border-color:var(--color-fg-muted)}
+/* gantt */
+.fs-g-top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--cds-gap-md);flex-wrap:wrap}
+.fs-g-tools{display:flex;gap:var(--cds-gap-xs);flex-wrap:wrap}
+.fs-g-scroll{overflow-x:auto;overflow-y:hidden;cursor:grab;border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-bg);user-select:none;min-height:150px}
+.fs-g-scroll.grabbing{cursor:grabbing}
+.fs-g-inner{position:relative}
+.fs-g-head{position:relative;height:38px;border-bottom:1px solid var(--color-border-line)}
+.fs-g-corner{position:sticky;left:0;z-index:3;height:100%;display:flex;align-items:center;padding:0 var(--cds-pad-sm);background:var(--color-bg);border-right:1px solid var(--color-border-line);box-sizing:border-box;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-g-month{position:absolute;top:0;height:100%;padding-left:6px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);display:flex;align-items:center;white-space:nowrap}
+.fs-g-month.yr{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.fs-g-line{position:absolute;top:0;bottom:0;width:1px;background:var(--cds-chart-grid)}
+.fs-g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--cds-chart-reference);z-index:1}
+.fs-g-todaylbl{position:absolute;top:4px;transform:translateX(-50%);font-size:var(--cds-font-size-caption);background:var(--color-bg);padding:0 4px;border:1px solid var(--cds-chart-reference);border-radius:var(--cds-radius);white-space:nowrap;z-index:2}
+.fs-g-yrow{position:relative;height:44px;border-bottom:1px solid var(--color-border-line);background:var(--color-panel);display:flex;align-items:center}
+.fs-g-ylabel{position:sticky;left:0;z-index:3;height:100%;display:flex;align-items:center;gap:8px;padding:0 var(--cds-pad-sm);background:var(--color-panel);border:0;border-right:1px solid var(--color-border-line);box-sizing:border-box;font:inherit;color:var(--color-fg);cursor:pointer;text-align:left;flex:none}
+.fs-g-ylabel b{font-weight:var(--cds-font-weight-medium)}
+.fs-g-caret{width:1rem;color:var(--color-fg-muted)}
+.fs-g-yinfo{position:sticky;left:0;padding-left:var(--cds-pad-sm);font-size:var(--cds-font-size-body);color:var(--color-fg-muted);white-space:nowrap}
+.fs-g-yinfo b{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.fs-g-row{position:relative;height:60px;border-bottom:1px solid var(--color-border-line);cursor:pointer}
+.fs-g-row:last-child{border-bottom:0}
+.fs-g-row.on{background:var(--color-panel)}
+.fs-g-label{position:sticky;left:0;z-index:3;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 var(--cds-pad-sm);background:var(--color-bg);border-right:1px solid var(--color-border-line);box-sizing:border-box;line-height:1.3}
+.fs-g-row.on .fs-g-label{background:var(--color-panel);box-shadow:inset 4px 0 0 var(--fs-accent)}
+.fs-g-label b{font-weight:var(--cds-font-weight-medium);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-g-bar{position:absolute;top:14px;height:32px;border:0;border-radius:6px;padding:0;cursor:pointer}
+.fs-g-pts{pointer-events:none}
+.fs-g-bar:focus-visible{outline:2px solid var(--color-fg);outline-offset:2px}
+.fs-g-txt{position:absolute;top:14px;height:32px;display:flex;align-items:center;white-space:nowrap;font-size:var(--cds-font-size-caption);color:var(--color-fg);pointer-events:none}
+.fs-st{font-size:var(--cds-font-size-caption)}
+.fs-st.done{color:var(--color-fg-muted)}.fs-st.live{color:var(--color-ok)}.fs-st.soon{color:var(--color-warn)}
+/* campaign header */
+.fs-camp{display:grid;grid-template-columns:minmax(15rem,1fr) minmax(0,1.6fr) auto;gap:var(--cds-gap-xl);align-items:stretch}
+@media (max-width:1000px){.fs-camp{grid-template-columns:minmax(14rem,1fr) minmax(0,1.6fr)}.fs-dmimgs{grid-column:1 / -1}}
+@media (max-width:640px){.fs-camp{grid-template-columns:1fr}}
+.fs-camp-text{min-width:0;display:flex;flex-direction:column;gap:var(--cds-gap-md)}
+.fs-camp-title{display:flex;align-items:center;gap:var(--cds-gap-sm);flex-wrap:wrap}
+.fs-camp-name{font-family:var(--font-anthropic-serif);font-size:calc(var(--cds-font-size-title) * 1.1);font-weight:400;line-height:1.25}
+.fs-chip{font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);padding:2px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.fs-chip.done{color:var(--color-fg-muted)}.fs-chip.live{color:var(--color-ok)}.fs-chip.soon{color:var(--color-warn)}
+.fs-dl{display:grid;grid-template-columns:auto 1fr;gap:var(--cds-gap-sm) var(--cds-gap-md);margin:0;align-items:baseline}
+.fs-dl dt{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);white-space:nowrap}
+.fs-dl dd{margin:0;font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);font-variant-numeric:tabular-nums;line-height:1.45}
+.fs-dl dd .big{font-family:var(--font-anthropic-serif);font-weight:400;font-size:calc(var(--cds-font-size-heading) * 1.35)}
+.fs-dl dd .sub{font-size:var(--cds-font-size-body);font-weight:400;color:var(--color-fg-muted)}
+.fs-phases{display:flex;flex-direction:column;gap:6px}
+.fs-phase-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;gap:2px}
+.fs-phase-bar span{display:block;height:100%}
+.fs-phase-lbl{display:flex;flex-wrap:wrap;gap:2px var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-phase-lbl i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.fs-camp-mid{min-width:0;display:flex}
+.fs-camp-mid > *{flex:1}
+.fs-dm{display:inline-block;margin-right:var(--cds-gap-sm);padding:2px 10px;border:1px solid var(--color-border-line);border-radius:var(--cds-radius);color:var(--color-fg);text-decoration:none;background:var(--color-bg)}
+.fs-dm:hover{border-color:var(--color-fg-muted)}
+.fs-dmimgs{display:flex;gap:var(--cds-gap-md);flex-wrap:nowrap;overflow-x:auto;max-width:100%;align-items:flex-start}
+.fs-dmitem{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
+.fs-dmitem .fs-cap{font-size:var(--cds-font-size-caption)}
+.fs-dmthumb{border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:0;background:var(--color-bg);cursor:zoom-in;overflow:hidden;line-height:0}
+.fs-dmthumb img{height:230px;width:auto;display:block}
+.fs-dlg{position:fixed;inset:0;margin:auto;width:fit-content;height:fit-content;border:0;padding:var(--cds-pad-sm);border-radius:var(--cds-radius);background:var(--color-panel);max-width:94vw;max-height:94vh;box-sizing:border-box;box-shadow:var(--cds-shadow-popover)}
+.fs-dlg[open]{display:flex;flex-direction:column;align-items:center}
+.fs-dlg::backdrop{background:rgba(0,0,0,.6)}
+.fs-dlg img{display:block;max-width:calc(94vw - 2rem);max-height:calc(94vh - 4.5rem);width:auto;height:auto;margin:var(--cds-gap-sm) auto 0}
+.fs-dlg-x{align-self:flex-end}
+.fs-kpis{display:grid;grid-template-columns:1fr 1fr;gap:var(--cds-gap-sm)}
+.fs-kpi{background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-sm) var(--cds-pad-md);display:flex;flex-direction:column;justify-content:center;min-width:0}
+.fs-kpi .l{color:var(--color-fg-muted);font-size:var(--cds-font-size-body)}
+.fs-kpi .v{font-family:var(--font-anthropic-serif);font-weight:400;font-size:calc(var(--cds-font-size-title) * 1.25);line-height:1.2;font-variant-numeric:tabular-nums;margin:2px 0;overflow-wrap:anywhere}
+.fs-kpi .s{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.fs-empty{display:flex;align-items:center;justify-content:center;text-align:center;border:1px dashed var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-xl);color:var(--color-fg-muted);font-size:var(--cds-font-size-heading)}
+/* category */
+.fs-cat{display:flex;flex-direction:column;gap:var(--cds-gap-md)}
+.fs-cat-row{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr auto;gap:var(--cds-gap-xs) var(--cds-gap-sm);align-items:center}
+.fs-cat-row .nm{display:flex;align-items:center;gap:6px;font-weight:var(--cds-font-weight-medium)}
+.fs-sw{width:.75rem;height:.75rem;border-radius:3px;flex:none}
+.fs-track{height:22px;background:var(--cds-chart-grid);border-radius:4px;overflow:hidden}
+.fs-fill{height:100%;border-radius:4px}
+.fs-cat-row .val{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.fs-cat-row .sub{grid-column:2 / 4;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+/* ranking */
+.fs-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-bottom:var(--cds-gap-sm)}
+.fs-legend span{display:inline-flex;align-items:center;gap:5px}
+.fs-rank{display:flex;flex-direction:column;gap:6px}
+.fs-rank-row{display:grid;grid-template-columns:1.6rem minmax(7rem,13rem) 1fr 6.5rem 2.8rem;gap:var(--cds-gap-sm);align-items:center;font-size:var(--cds-font-size-body)}
+.fs-rank-row .n{color:var(--color-fg-muted);text-align:right;font-variant-numeric:tabular-nums}
+.fs-rank-row .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-rank-row .val,.fs-rank-row .pct{text-align:right;font-variant-numeric:tabular-nums}
+.fs-rank-row .pct{color:var(--color-fg-muted)}
+.fs-rank-row .fs-track{height:18px;background:transparent}
+@media (max-width:560px){.fs-rank-row{grid-template-columns:1.4rem 1fr 6rem}.fs-rank-row .fs-track,.fs-rank-row .pct{display:none}}
+/* insights */
+.fs-icards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:var(--cds-gap-md)}
+.fs-icard{display:flex;gap:var(--cds-gap-md);align-items:stretch;background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-md);border-top:4px solid var(--fs-ic,var(--color-border-line));min-width:0}
+.fs-ipic{flex:none;width:96px;height:96px;border-radius:var(--cds-radius);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid var(--color-border-line)}
+.fs-ipic img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.fs-ipic.ph{font-size:var(--cds-font-size-heading);color:var(--color-fg-muted);background:var(--color-panel)}
+.fs-ibody{min-width:0;display:flex;flex-direction:column;gap:2px}
+.fs-itag{align-self:flex-start;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);color:var(--fs-ic);border:1px solid var(--fs-ic);border-radius:999px;padding:0 8px}
+.fs-iname{font-weight:var(--cds-font-weight-medium);font-size:var(--cds-font-size-body);line-height:1.35;overflow-wrap:anywhere}
+.fs-ibig{font-family:var(--font-anthropic-serif);font-size:calc(var(--cds-font-size-title) * 1.15);line-height:1.15;font-variant-numeric:tabular-nums}
+.fs-isub{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.fs-iprice{font-size:var(--cds-font-size-caption);color:var(--color-fg);background:var(--color-panel);border-radius:4px;padding:0 6px;align-self:flex-start;margin-top:2px}
+.fs-iadd{margin-top:var(--cds-gap-md);background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-md)}
+.fs-iadd h3{margin:0 0 var(--cds-gap-sm);font-size:var(--cds-font-size-body);font-weight:var(--cds-font-weight-medium)}
+.fs-iadd-row{display:flex;gap:var(--cds-gap-md);overflow-x:auto;padding-bottom:4px}
+.fs-iadd-item{flex:none;width:7.5rem;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.fs-iadd-item .fs-ipic{width:84px;height:84px}
+.fs-iadd-item .n{font-size:var(--cds-font-size-caption);line-height:1.3}
+.fs-iadd-item .p{font-weight:var(--cds-font-weight-medium);font-variant-numeric:tabular-nums}
+.fs-ifoot{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-body);color:var(--color-fg-muted)}
+.fs-ifoot b{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
+.fs-ins{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:var(--cds-gap-sm);font-size:var(--cds-font-size-heading)}
+.fs-ins b{font-weight:var(--cds-font-weight-medium)}
+/* scatter */
+.fs-svg{min-height:320px;position:relative}
+.fs-svg text{font-size:var(--cds-font-size-caption);fill:var(--color-fg-muted)}
+.fs-svg text.lbl{fill:var(--color-fg)}
+.fs-svg text.q{fill:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium)}
+/* table */
+.fs-tbar{display:flex;justify-content:space-between;align-items:center;gap:var(--cds-gap-md);flex-wrap:wrap;margin-bottom:var(--cds-gap-sm)}
+.fs-search{font:inherit;font-size:var(--cds-font-size-body);padding:var(--cds-pad-xs) var(--cds-pad-sm);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-bg);color:var(--color-fg);min-width:12rem}
+.fs-tbox{max-height:34rem;overflow:auto}
+.fs-table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-body);font-variant-numeric:tabular-nums}
+.fs-table th{position:sticky;top:0;background:var(--color-panel);text-align:left;border-bottom:1px solid var(--color-border-line);padding:0;z-index:1}
+.fs-table th button{font:inherit;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);background:none;border:0;padding:var(--cds-pad-xs) var(--cds-pad-sm);cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
+.fs-table th.num{text-align:right}
+.fs-table td{padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line)}
+.fs-table td.num{text-align:right;white-space:nowrap}
+.fs-st-cell{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.fs-st-cell .fs-track{width:4rem;height:10px}
+.fs-good{color:var(--color-ok);font-weight:var(--cds-font-weight-medium)}.fs-bad{color:var(--color-bad);font-weight:var(--cds-font-weight-medium)}
+.fs-table tr.row-good td{background:color-mix(in srgb, var(--color-ok) 16%, transparent)}
+.fs-table tr.row-bad td{background:color-mix(in srgb, var(--color-bad) 14%, transparent)}
+.fs-table tr.row-good td:first-child{box-shadow:inset 4px 0 0 var(--color-ok)}
+.fs-table tr.row-bad td:first-child{box-shadow:inset 4px 0 0 var(--color-bad)}
+.fs-tag{display:inline-block;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);color:var(--color-warn);border:1px solid var(--color-warn);border-radius:var(--cds-radius);padding:0 5px;line-height:1.5}
+.fs-key{display:inline-flex;align-items:center;gap:5px;margin-right:var(--cds-gap-md)}
+.fs-key i{width:.9rem;height:.9rem;border-radius:3px;display:inline-block}
+@media (max-width:640px){.fs-table .hide-n{display:none}}
+.fs-tip{position:absolute;z-index:20;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption);max-width:17rem;display:none;line-height:1.5}
+.fs-tip .t{color:var(--cds-text-secondary);margin-bottom:2px}
+[data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+[data-dash-source-state=empty]{color:transparent}
+.fs-fail{display:flex;align-items:center;justify-content:center;gap:6px;min-height:inherit;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.fs-fail::before{content:"";width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+</style>
+
+<div class="fs">
+  <header class="fs-head" id="top">
+    <h1>7-11 快閃購營業額看板</h1>
+    <p class="fs-take dash-skeleton" id="takeaway"></p>
+    <p class="fs-pubnote">資料更新：2026-10-16</p>
+  </header>
+
+  <section class="fs-card" id="gantt">
+    <div class="fs-g-top">
+      <div>
+        <h2>活動時程</h2>
+        <p class="fs-note">點年份可展開或收合；按住拖曳或用左右鍵捲動時間軸；點一下檔期，下方就換成那一檔的銷售分析。</p>
+      </div>
+      <div class="fs-g-tools">
+        <button class="fs-btn" id="g-left" aria-label="往前">◀</button>
+        <button class="fs-btn" id="g-today">今天</button>
+        <button class="fs-btn" id="g-right" aria-label="往後">▶</button>
+        <button class="fs-btn" id="g-out" aria-label="縮小時間軸">－</button>
+        <button class="fs-btn" id="g-in" aria-label="放大時間軸">＋</button>
+      </div>
+    </div>
+    <div class="fs-g-scroll dash-skeleton" data-source="campaigns" tabindex="0"><div class="fs-g-inner"></div></div>
+  </section>
+
+  <section class="fs-card fs-camp" id="campaign">
+    <div class="fs-camp-text">
+      <div class="fs-camp-title"><div class="fs-camp-name dash-skeleton" id="c-name" data-source="campaigns" data-field="name">—</div><span id="c-status" class="fs-chip" hidden></span></div>
+      <dl class="fs-dl">
+        <dt>活動日期</dt><dd><span id="c-start" data-source="campaigns" data-field="start">—</span><br>～ <span id="c-end" data-source="campaigns" data-field="end">—</span></dd>
+        <dt>活動週期</dt><dd><span class="big"><span id="c-weeks" data-source="summary" data-field="weeks">—</span> 週</span> <span class="sub">共 <span id="c-days" data-source="summary" data-field="days">—</span> 天</span></dd>
+        <dt id="c-asof-dt" hidden>銷售統計</dt><dd id="c-asof" hidden></dd>
+        <dt id="c-dm-dt" hidden>活動 DM</dt><dd id="c-dm-wrap" hidden><span id="c-dm"></span></dd>
+      </dl>
+      <div id="c-phases" class="fs-phases" data-source="campaigns" hidden></div>
+    </div>
+    <div class="fs-camp-mid">
+      <div class="fs-kpis" id="kpis">
+        <div class="fs-kpi"><div class="l">總營業額</div><div class="v dash-skeleton" data-k="revenue" data-source="summary" data-field="revenue">—</div><div class="s">含稅</div></div>
+        <div class="fs-kpi"><div class="l">售出率</div><div class="v dash-skeleton" data-k="sellthru" data-source="summary" data-field="sellthru">—</div><div class="s" id="ks-sell">未售出 <span data-k="unsold" data-source="summary" data-field="unsold">—</span> 件</div><div class="s" id="ks-sell-no" hidden>這份資料沒有下單量</div></div>
+        <div class="fs-kpi"><div class="l">累計銷售數</div><div class="v dash-skeleton" data-k="sold" data-source="summary" data-field="sold">—</div><div class="s" id="ks-ord">下單量 <span data-k="ordered" data-source="summary" data-field="ordered">—</span> 件</div></div>
+        <div class="fs-kpi"><div class="l">日均營業額</div><div class="v dash-skeleton" data-k="perday" data-source="summary" data-field="perday">—</div><div class="s">共 <span data-k="sku" data-source="summary" data-field="sku">—</span> 項商品<span id="ks-perday-n"></span></div></div>
+      </div>
+      <div id="nodata" class="fs-empty" hidden>這一檔還沒有銷售資料。<br>把銷售紀錄截圖或表格給 Claude，就能補上分析。</div>
+    </div>
+    <div id="c-dmimg" class="fs-dmimgs" data-source="dmimg" hidden></div>
+  </section>
+  <dialog id="dm-dialog" class="fs-dlg"><button class="fs-btn fs-dlg-x" aria-label="關閉">✕ 關閉</button><img alt="活動 DM"></dialog>
+
+  <div id="analysis" class="fs" style="gap:var(--cds-gap-lg)">
+
+    <section class="fs-card" id="insights">
+      <h2>重點觀察</h2>
+      <p class="fs-note">依這一檔數字自動整理；有 DM 的檔期會附上商品圖與 DM 售價。</p>
+      <div class="fs-icards dash-skeleton" data-source="prod" style="min-height:160px"></div>
+      <div class="fs-iadd" hidden></div>
+      <p class="fs-ifoot"></p>
+    </section>
+
+    <div class="fs-grid">
+      <section class="fs-card" id="category">
+        <h2>分類營業額</h2>
+        <p class="fs-note">長條為營業額；下方小字是銷售數佔比與售出率。</p>
+        <div class="fs-cat dash-skeleton" data-source="bycat" style="min-height:220px"></div>
+      </section>
+      <section class="fs-card" id="scatter">
+        <h2 id="sc-title">售出率 × 營業額</h2>
+        <p class="fs-note" id="sc-note">虛線為整檔平均售出率與商品營業額中位數，滑過圓點看明細。</p>
+        <div class="fs-svg dash-skeleton" data-source="prod"></div>
+      </section>
+    </div>
+
+    <section class="fs-card" id="ranking">
+      <h2>商品營業額排行</h2>
+      <p class="fs-note">顏色代表分類，右側為營業額與佔比。</p>
+      <div class="fs-legend"></div>
+      <div class="fs-rank dash-skeleton" data-source="prod" style="min-height:300px"></div>
+    </section>
+
+    <section class="fs-card" id="detail">
+      <div class="fs-tbar">
+        <div><h2>商品銷售明細</h2><p class="fs-note" style="margin-bottom:0">點欄位名稱可排序。<span class="fs-key"><i style="background:color-mix(in srgb, var(--color-ok) 35%, transparent)"></i>售出率 60% 以上</span><span class="fs-key"><i style="background:color-mix(in srgb, var(--color-bad) 35%, transparent)"></i>售出率 20% 以下</span><span class="fs-key"><span class="fs-tag">追加</span>有追加下單</span></p></div>
+        <input class="fs-search" type="search" placeholder="搜尋商品或分類" aria-label="搜尋商品">
+      </div>
+      <div class="fs-tbox">
+        <table class="fs-table" data-source="prod" data-row-key="campaign,product">
+          <thead><tr>
+            <th data-field="product"><button data-sort="product">商品名稱</button></th>
+            <th data-field="category" class="hide-n"><button data-sort="category">分類</button></th>
+            <th data-field="ordered" class="num hide-n"><button data-sort="ordered">下單量</button></th>
+            <th data-field="sold" class="num"><button data-sort="sold">累計銷售</button></th>
+            <th data-field="sellthru" class="num"><button data-sort="sellthru">售出率</button></th>
+            <th data-field="revenue" class="num"><button data-sort="revenue">營業額</button></th>
+            <th data-field="revShare" class="num hide-n"><button data-sort="revShare">營業額佔比</button></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+  <div class="fs-tip" role="tooltip"></div>
+</div>
+
+<script>
+(function(){
+const $=(s)=>document.querySelector(s);
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;};
+const fInt=d3.format(',.0f'), fPct=d3.format('.0%');
+const money=(v)=>'$'+fInt(v);
+const pct=(v)=>v==null||!isFinite(v)?'—':fPct(v);
+const num=(v)=>v==null?'—':fInt(v);
+const wan=(v)=>v===0?'0':(v/1e4).toFixed(v>=1e5?0:1).replace(/\.0$/,'')+'萬';
+const parse=(s)=>new Date(s+'T00:00:00Z');
+const WD='日一二三四五六';
+const longDate=(s)=>{const d=parse(s);return d3.utcFormat('%Y/%-m/%-d')(d)+'（'+WD[d.getUTCDay()]+'）';};
+const md=d3.utcFormat('%-m/%-d');
+const DAY=864e5;
+const today=parse(new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Taipei'}));
+const enc=encodeURIComponent;
+const short=(n)=>n.replace(/^姆明\s*/,'');
+document.querySelector('.fs').style.setProperty('--fs-accent',dash.colors[0]);
+
+/* ---------- calculations ---------- */
+dash.calc('summary',{inputs:['campaigns','products'],title:'各檔期銷售總結',
+  description:'每檔期加總營業額、銷售數、下單量（缺下單量則售出率留空）；日均以統計截止日計（有的話）；售出率＝銷售數÷下單量；天數從快閃購開始算到活動結束（有集點期就算到集點結束），週期＝天數÷7，日均＝營業額÷天數。',
+  fn:(campaigns,products)=>campaigns.map((c)=>{
+    const ps=products.filter((p)=>p.campaign===c.id);
+    const revenue=ps.reduce((a,p)=>a+Number(p.revenue),0);
+    const sold=ps.reduce((a,p)=>a+Number(p.sold),0);
+    const hasOrd=ps.length>0&&ps.every((p)=>p.ordered!==null&&p.ordered!==undefined&&p.ordered!=='');
+    const ordered=hasOrd?ps.reduce((a,p)=>a+Number(p.ordered),0):null;
+    const asofDays=c.start&&c.asof?Math.round((Date.parse(c.asof)-Date.parse(c.start))/864e5)+1:null;
+    const last=c.points_end||c.end;
+    const days=c.start&&last?Math.round((Date.parse(last)-Date.parse(c.start))/864e5)+1:null;
+    return {campaign:c.id,sku:ps.length,revenue:Math.round(revenue*10)/10,sold,ordered,unsold:ordered?ordered-sold:null,
+      sellthru:ordered?sold/ordered:null,asofDays,days,weeks:days?Math.round(days/7*100)/100:null,
+      perday:(asofDays||days)&&ps.length?Math.round(revenue/(asofDays||days)):null};
+  })});
+dash.calc('byyear',{inputs:['campaigns','summary'],title:'各年度營業額',
+  description:'依活動開始年份加總各檔營業額；日期未確認的檔期歸在「待確認」。',
+  fn:(campaigns,summary)=>{
+    const m={};
+    campaigns.forEach((c)=>{const y=c.start?c.start.slice(0,4):'待確認';const s=summary.find((r)=>r.campaign===c.id);
+      const g=m[y]||(m[y]={year:y,campaigns:0,withData:0,revenue:0});g.campaigns+=1;
+      if(s&&s.sku>0){g.withData+=1;g.revenue+=s.revenue;}});
+    return Object.values(m).map((g)=>({...g,revenue:Math.round(g.revenue*10)/10}));
+  }});
+dash.calc('bycat',{inputs:['products'],title:'分類銷售彙總',
+  description:'依檔期與分類加總營業額、銷售數、下單量，並算出營業額佔比、銷售數佔比與售出率。',
+  fn:(products)=>{
+    const tot={},m={};
+    products.forEach((p)=>{const t=tot[p.campaign]||(tot[p.campaign]={r:0,s:0});t.r+=Number(p.revenue);t.s+=Number(p.sold);});
+    products.forEach((p)=>{const k=p.campaign+'|'+p.category;const g=m[k]||(m[k]={campaign:p.campaign,category:p.category,sku:0,revenue:0,sold:0,ordered:0});
+      g.sku+=1;g.revenue+=Number(p.revenue);g.sold+=Number(p.sold);
+      if(p.ordered===null||p.ordered===undefined||p.ordered==='')g.noOrd=true;else g.ordered+=Number(p.ordered);});
+    return Object.values(m).map(({noOrd,...g})=>({...g,ordered:noOrd?null:g.ordered,revShare:g.revenue/tot[g.campaign].r,unitShare:g.sold/tot[g.campaign].s,sellthru:noOrd||!g.ordered?null:g.sold/g.ordered}));
+  }});
+dash.calc('prod',{inputs:['products'],title:'商品銷售指標',
+  description:'每項商品的售出率（銷售數÷下單量）、未售出數，以及在該檔期營業額中的佔比。',
+  fn:(products)=>{
+    const tot={};products.forEach((p)=>{tot[p.campaign]=(tot[p.campaign]||0)+Number(p.revenue);});
+    return products.map((p)=>({campaign:p.campaign,no:Number(p.no),category:p.category,product:p.product,
+      ordered:p.ordered==null||p.ordered===''?null:Number(p.ordered),sold:Number(p.sold),
+      unsold:p.ordered==null||p.ordered===''?null:Number(p.ordered)-Number(p.sold),revenue:Number(p.revenue),
+      sellthru:p.ordered==null||p.ordered===''||!Number(p.ordered)?null:Number(p.sold)/Number(p.ordered),revShare:Number(p.revenue)/tot[p.campaign],added:p.added===true||p.added==='true'}));
+  }});
+
+/* ---------- tooltip ---------- */
+const root=$('.fs'),tip=$('.fs-tip');
+function showTip(e,title,lines){
+  tip.replaceChildren(el('div','t',title),...lines.map((l)=>el('div',null,l)));
+  tip.style.display='block';
+  const r=root.getBoundingClientRect();
+  let x=e.clientX-r.left+14,y=e.clientY-r.top+14;
+  if(x+tip.offsetWidth>r.width)x=e.clientX-r.left-tip.offsetWidth-14;
+  tip.style.left=Math.max(0,x)+'px';tip.style.top=y+'px';
+}
+const hideTip=()=>{tip.style.display='none';};
+const failBox=(box)=>{box.replaceChildren(el('div','fs-fail','Failed to load'));};
+const bad=(d)=>d.status==='error'||d.status==='connect'||d.status==='declined'||d.status==='missing';
+const skel=(node,d)=>node.classList.toggle('dash-skeleton',d.status==='loading');
+
+/* ---------- category colours ---------- */
+let cats=[];
+const catColor=(c)=>{let i=cats.indexOf(c);if(i<0){cats.push(c);i=cats.length-1;}return dash.colors[i%dash.colors.length];};
+
+/* ---------- gantt ---------- */
+const scroller=$('.fs-g-scroll'),inner=$('.fs-g-inner');
+let pxPerDay=5,gx=null,lastSel=null,pendingCenter=null;
+const statusOf=(c)=>{if(!c.start)return['soon','日期待確認'];const s=parse(c.start),e=c.end?parse(c.end):null;
+  const pe=c.points_end?parse(c.points_end):e;if(today<s)return['soon','即將開跑'];if(!pe||today<=pe)return['live','進行中'];return['done','已結束'];};
+const barEnd=(c)=>c.end?d3.utcDay.offset(parse(c.end),1):d3.utcDay.offset(parse(c.start),30);
+const fullEnd=(c)=>c.points_end?d3.utcDay.offset(parse(c.points_end),1):barEnd(c);
+function centerOn(date){if(!gx)return;scroller.scrollLeft=gx(date)-(scroller.clientWidth+gx.range()[0])/2;}
+const yearOf=(c)=>c.start?c.start.slice(0,4):'待確認';
+let openYears=null;
+function drawGantt(C,sel,Y){
+  skel(scroller,C);
+  if(C.status!=='ok'){inner.replaceChildren();if(bad(C))failBox(inner);return;}
+  const rows=C.data.slice().sort((a,b)=>!a.start?1:!b.start?-1:a.start<b.start?-1:1);
+  const selRow=rows.find((r)=>r.id===sel);
+  if(!openYears)openYears=new Set([String(today.getUTCFullYear()),'待確認']);
+  if(selRow&&sel!==lastSel)openYears.add(yearOf(selRow));
+  const groups=d3.groups(rows,yearOf);
+  const visible=rows.filter((r)=>r.start&&openYears.has(yearOf(r)));
+  const LW=Math.round(Math.min(190,Math.max(120,scroller.clientWidth*0.3)));
+  const t0=d3.utcMonth.offset(d3.utcMonth.floor(d3.min([...visible.map((r)=>parse(r.start)),today])),-1);
+  const t1=d3.utcMonth.offset(d3.utcMonth.ceil(d3.max([...visible.map(fullEnd),today])),2);
+  const W=Math.max(LW+Math.round((t1-t0)/DAY)*pxPerDay,scroller.clientWidth);
+  const keepLeft=scroller.scrollLeft;
+  gx=d3.scaleUtc([t0,t1],[LW,LW+Math.round((t1-t0)/DAY)*pxPerDay]);
+  inner.style.width=W+'px';
+  inner.replaceChildren();
+  // header
+  const head=el('div','fs-g-head');
+  const corner=el('div','fs-g-corner','檔期');corner.style.width=LW+'px';head.append(corner);
+  d3.utcMonth.range(t0,t1).forEach((m)=>{
+    const yr=m.getUTCMonth()===0;
+    const lab=el('div','fs-g-month'+(yr?' yr':''),yr||+m===+t0?d3.utcFormat('%Y年%-m月')(m):d3.utcFormat('%-m月')(m));
+    lab.style.left=gx(m)+'px';head.append(lab);
+    const ln=el('div','fs-g-line');ln.style.left=gx(m)+'px';inner.append(ln);
+  });
+  inner.append(head);
+  // year groups
+  groups.forEach(([year,list])=>{
+    const open=openYears.has(year);
+    const yrow=el('div','fs-g-yrow');yrow.id='y-'+year;
+    const ylab=el('button','fs-g-ylabel');ylab.style.width=LW+'px';ylab.setAttribute('aria-expanded',String(open));
+    ylab.append(el('span','fs-g-caret',open?'▾':'▸'),el('b',null,year==='待確認'?'日期待確認':year+' 年'),el('span','fs-cap',`${list.length} 檔`));
+    yrow.append(ylab);
+    const yinfo=el('div','fs-g-yinfo');
+    const ys=Y&&Y.status==='ok'?Y.data.find((r)=>r.year===year):null;
+    if(ys&&ys.revenue>0){
+      const v=el('b',null,money(ys.revenue));v.dataset.source='byyear';v.dataset.field='revenue';v.dataset.where='year='+enc(year);
+      yinfo.append('營業額合計 ',v,`（${ys.withData} 檔有銷售資料）`);
+    }else yinfo.append('尚無銷售資料');
+    if(!open)yinfo.append('・點左側展開');
+    yinfo.style.left=LW+'px';yrow.append(yinfo);
+    ylab.addEventListener('click',(e)=>{e.stopPropagation();if(moved)return;
+      if(openYears.has(year))openYears.delete(year);else openYears.add(year);
+      pendingCenter=null;yearToggled=year;
+      drawGantt(dash.data('campaigns'),dash.params().campaign,dash.data('byyear'));});
+    inner.append(yrow);
+    if(!open)return;
+    list.forEach((c)=>{
+      const row=el('div','fs-g-row'+(c.id===sel?' on':''));row.id='g-'+c.id;
+      const lab=el('div','fs-g-label');lab.style.width=LW+'px';
+      const st=statusOf(c);
+      const shown=year!=='待確認'&&c.name.startsWith(year)?c.name.slice(year.length).trim()||c.name:c.name;
+      lab.append(el('b',null,shown),el('span','fs-st '+st[0],st[1]+(c.note&&c.note!==st[1]?'・'+c.note:'')));
+      row.append(lab);
+      row.addEventListener('click',()=>{if(moved)return;dash.setParams({campaign:c.id});});
+      row.addEventListener('pointerleave',hideTip);
+      if(!c.start){
+        row.addEventListener('pointermove',(e)=>showTip(e,c.name,['活動日期待確認，所以還沒畫在時間軸上']));
+        inner.append(row);return;
+      }
+      const s=parse(c.start),xs=gx(s),xe=gx(barEnd(c));
+      const col=c.id===sel?dash.colors[0]:st[0]==='done'?'var(--cds-chart-muted)':dash.colors[1];
+      const bar=el('button','fs-g-bar');bar.setAttribute('aria-label',c.name);
+      bar.style.left=xs+'px';bar.style.width=Math.max(6,xe-xs)+'px';
+      bar.style.background=c.end?col:`linear-gradient(90deg, ${col} 55%, transparent)`;
+      row.append(bar);
+      const days=c.end?Math.round((parse(c.end)-s)/DAY)+1:null;
+      const pts=c.points_start&&c.points_end;
+      const pdays=pts?Math.round((parse(c.points_end)-parse(c.points_start))/DAY)+1:null;
+      let xEnd=xe;
+      if(pts){
+        const px=gx(parse(c.points_start)),pe=gx(d3.utcDay.offset(parse(c.points_end),1));
+        const pb=el('div','fs-g-bar fs-g-pts');pb.style.left=px+'px';pb.style.width=Math.max(4,pe-px)+'px';
+        pb.style.background=`color-mix(in srgb, ${col} 35%, transparent)`;row.append(pb);xEnd=pe;
+      }
+      const txt=el('div','fs-g-txt',`${md(s)}–${c.end?md(parse(c.end)):'未定'}${days?'・'+days+'天':''}${pts?`＋集點至 ${md(parse(c.points_end))}`:''}`);
+      txt.style.left=(xEnd+8)+'px';row.append(txt);
+      const tipLines=[`快閃購 ${longDate(c.start)} ～ ${c.end?longDate(c.end):'未定'}`+(days?`（${days} 天）`:'')];
+      if(pts)tipLines.push(`集點 ${longDate(c.points_start)} ～ ${longDate(c.points_end)}（${pdays} 天）`);
+      const tot=c.end?Math.round((parse(c.points_end||c.end)-s)/DAY)+1:null;
+      tipLines.push(tot?`共 ${tot} 天（${(tot/7).toFixed(2)} 週）`:'結束日未定',st[1]);
+      row.addEventListener('pointermove',(e)=>showTip(e,c.name,tipLines));
+      inner.append(row);
+    });
+  });
+  // today
+  const tl=el('div','fs-g-today');tl.style.left=gx(today)+'px';inner.append(tl);
+  const tlb=el('div','fs-g-todaylbl','今天 '+md(today));tlb.style.left=gx(today)+'px';head.append(tlb);
+  // scroll position
+  if(pendingCenter){centerOn(pendingCenter);pendingCenter=null;}
+  else if(yearToggled){
+    const first=visible.find((r)=>yearOf(r)===yearToggled);
+    if(first)centerOn(parse(first.start));else scroller.scrollLeft=Math.min(keepLeft,W);
+    yearToggled=null;
+  }
+  else if(sel!==lastSel&&selRow&&selRow.start){centerOn(new Date((+parse(selRow.start)+ +fullEnd(selRow))/2));}
+  else scroller.scrollLeft=keepLeft;
+  lastSel=sel;
+}
+let yearToggled=null;
+let drag=null,moved=false;
+scroller.addEventListener('pointerdown',(e)=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,left:scroller.scrollLeft};moved=false;});
+window.addEventListener('pointermove',(e)=>{if(!drag)return;const dx=e.clientX-drag.x;if(Math.abs(dx)>4){moved=true;scroller.classList.add('grabbing');hideTip();}if(moved)scroller.scrollLeft=drag.left-dx;});
+window.addEventListener('pointerup',()=>{if(!drag)return;drag=null;scroller.classList.remove('grabbing');setTimeout(()=>{moved=false;},0);});
+const nudge=(f)=>scroller.scrollBy({left:scroller.clientWidth*f,behavior:'smooth'});
+$('#g-left').addEventListener('click',()=>nudge(-0.6));
+$('#g-right').addEventListener('click',()=>nudge(0.6));
+$('#g-today').addEventListener('click',()=>centerOn(today));
+scroller.addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft'){nudge(-0.3);e.preventDefault();}if(e.key==='ArrowRight'){nudge(0.3);e.preventDefault();}});
+const zoom=(k)=>{if(!gx)return;pendingCenter=gx.invert(scroller.scrollLeft+(scroller.clientWidth+gx.range()[0])/2);
+  pxPerDay=Math.max(2,Math.min(14,pxPerDay*k));drawGantt(dash.data('campaigns'),dash.params().campaign,dash.data('byyear'));};
+$('#g-in').addEventListener('click',()=>zoom(1.5));
+$('#g-out').addEventListener('click',()=>zoom(1/1.5));
+
+/* ---------- helpers for marks ---------- */
+const setMark=(node,where,text)=>{node.dataset.where=where;node.textContent=text;};
+
+/* ---------- main draw ---------- */
+let sortKey='revenue',sortDir=-1,query='';
+function draw(){
+  const sel=dash.params().campaign;
+  const C=dash.data('campaigns'),S=dash.data('summary'),B=dash.data('bycat'),P=dash.data('prod');
+  if(P.status==='ok')P.data.forEach((r)=>catColor(r.category));
+  drawGantt(C,sel,dash.data('byyear'));
+
+  // campaign header
+  const camp=C.status==='ok'?C.data.find((c)=>c.id===sel):null;
+  const sum=S.status==='ok'?S.data.find((r)=>r.campaign===sel):null;
+  const nm=$('#c-name');skel(nm,C);
+  if(camp){
+    setMark(nm,'id='+enc(camp.id),camp.name);
+    const fillDate=(node,field,emptyText)=>{
+      if(camp[field]){node.dataset.source='campaigns';node.dataset.field=field;setMark(node,'id='+enc(camp.id),longDate(camp[field]));}
+      else{delete node.dataset.source;delete node.dataset.field;delete node.dataset.where;node.textContent=emptyText;}
+    };
+    fillDate($('#c-start'),'start','待確認');
+    const dms=(Array.isArray(camp.dm)?camp.dm:[]).filter((u)=>/^https:\/\//.test(u));
+    const dmBox=$('#c-dm');dmBox.replaceChildren();
+    dms.forEach((u,i)=>{const a=el('a','fs-dm',dms.length>1?`第 ${i+1} 張 ↗`:'開啟 DM ↗');a.href=u;a.target='_blank';a.rel='noopener noreferrer';dmBox.append(a);});
+    $('#c-dm-wrap').hidden=!dms.length;$('#c-dm-dt').hidden=!dms.length;
+    const chip=$('#c-status');const st=statusOf(camp);chip.className='fs-chip '+st[0];chip.textContent=st[1];chip.hidden=false;
+    const ph=$('#c-phases');ph.replaceChildren();
+    if(camp.start&&camp.end&&camp.points_start&&camp.points_end){
+      const dd=(a,b)=>Math.round((parse(b)-parse(a))/DAY)+1;
+      const f=dd(camp.start,camp.end),p=dd(camp.points_start,camp.points_end);
+      const bar=el('div','fs-phase-bar');const s1=el('span');s1.style.flex=String(f);s1.style.background=dash.colors[0];
+      const s2=el('span');s2.style.flex=String(p);s2.style.background=`color-mix(in srgb, ${dash.colors[0]} 35%, transparent)`;bar.append(s1,s2);
+      const lbl=el('div','fs-phase-lbl');
+      const l1=el('span');const i1=el('i');i1.style.background=dash.colors[0];l1.append(i1,`快閃購 ${md(parse(camp.start))}–${md(parse(camp.end))}（${f} 天）`);
+      const l2=el('span');const i2=el('i');i2.style.background=`color-mix(in srgb, ${dash.colors[0]} 35%, transparent)`;l2.append(i2,`集點 ${md(parse(camp.points_start))}–${md(parse(camp.points_end))}（${p} 天）`);
+      lbl.append(l1,l2);ph.append(bar,lbl);ph.dataset.where='id='+enc(camp.id);ph.hidden=false;
+    }else ph.hidden=true;
+    const DI=dash.data('dmimg'),thumbs=$('#c-dmimg');thumbs.replaceChildren();
+    const imgs=(DI.status==='ok'?DI.data.filter((r)=>r.campaign===camp.id&&/^(data:image\/|dm\/|img\/)/.test(r.src)):[]).sort((a,b)=>(+a.page||0)-(+b.page||0));
+    imgs.forEach((r,i)=>{const item=el('div','fs-dmitem');const b=el('button','fs-dmthumb');b.setAttribute('aria-label','放大 DM：'+(r.title||''));
+      const im=new Image();im.src=r.src;im.alt=r.title||'活動 DM';b.append(im);
+      b.addEventListener('click',()=>{const d=$('#dm-dialog');d.querySelector('img').src=r.src;try{d.showModal();}catch(e){d.setAttribute('open','');}});
+      item.append(b,el('span','fs-cap',`第 ${i+1} 張`));thumbs.append(item);});
+    thumbs.hidden=!imgs.length;
+    const endField=camp.points_end?'points_end':'end';
+    const ao=$('#c-asof');
+    if(camp.asof&&camp.start){const n=Math.round((parse(camp.asof)-parse(camp.start))/DAY)+1;
+      ao.replaceChildren();const sp=el('span',null,longDate(camp.asof));sp.dataset.source='campaigns';sp.dataset.field='asof';sp.dataset.where='id='+enc(camp.id);
+      ao.append('至 ',sp,el('span','sub',` 開賣第 ${n} 天的累計`));ao.hidden=false;$('#c-asof-dt').hidden=false;}
+    else{ao.hidden=true;$('#c-asof-dt').hidden=true;}
+    fillDate($('#c-end'),endField,camp.start?'未定':'待確認');
+  }else{nm.textContent=bad(C)?'Failed to load':'—';$('#c-status').hidden=true;$('#c-phases').hidden=true;}
+  const cw=$('#c-weeks'),cd=$('#c-days');
+  if(sum&&sum.days){setMark(cw,'campaign='+enc(sel),sum.weeks.toFixed(2));setMark(cd,'campaign='+enc(sel),String(sum.days));}
+  else{cw.textContent='—';cd.textContent='—';}
+
+  const hasData=sum&&sum.sku>0;
+  $('#nodata').hidden=!(sum&&sum.sku===0);
+  $('#kpis').hidden=!!(sum&&sum.sku===0);
+  $('#analysis').hidden=!!(sum&&sum.sku===0);
+
+  // takeaway
+  const tk=$('#takeaway');skel(tk,S);tk.replaceChildren();
+  if(hasData&&camp&&P.status==='ok'){
+    const ps=P.data.filter((r)=>r.campaign===sel).sort((a,b)=>b.revenue-a.revenue);
+    const top=ps[0];
+    const mk=(src,field,where,text)=>{const s=el('b',null,text);s.dataset.source=src;s.dataset.field=field;s.dataset.where=where;return s;};
+    tk.append(`${camp.name} ${sum.asofDays?'開賣前 '+sum.asofDays+' 天':sum.days?sum.days+' 天':''}營業額 `,mk('summary','revenue','campaign='+enc(sel),money(sum.revenue)),
+      ...(sum.sellthru!=null?['，售出率 ',mk('summary','sellthru','campaign='+enc(sel),pct(sum.sellthru))]:[]),
+      `；營收第一是${top.product}，佔 `,mk('prod','revShare','campaign='+enc(sel)+'&product='+enc(top.product),fPct(top.revShare)),'。');
+  }else if(sum&&sum.sku===0&&camp){tk.textContent=`${camp.name}尚無銷售資料。`;}
+
+  // KPIs
+  document.querySelectorAll('#kpis [data-k]').forEach((n)=>{
+    skel(n,S);
+    if(!sum){n.textContent=bad(S)?'—':'—';return;}
+    const k=n.dataset.k,v=sum[k];
+    const t=v==null?'—':k==='revenue'||k==='perday'?money(v):k==='sellthru'?fPct(v):fInt(v);
+    setMark(n,'campaign='+enc(sel),t);
+  });
+  const noOrd=!!(sum&&sum.sku>0&&sum.ordered==null);
+  $('#ks-sell').hidden=noOrd;$('#ks-sell-no').hidden=!noOrd;$('#ks-ord').hidden=noOrd;
+  $('#ks-perday-n').textContent=sum&&sum.asofDays?`・以 ${sum.asofDays} 天計`:'';
+
+  if(!hasData){return;}
+  const prods=P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[];
+
+  // insights
+  const IM=dash.data('prodimg');
+  const imgOf=(r)=>IM.status==='ok'?IM.data.find((x)=>x.campaign===r.campaign&&x.product===r.product):null;
+  const pic=(r,cls)=>{const box=el('div','fs-ipic'+(cls?' '+cls:''));const m=imgOf(r);
+    if(m&&/^(data:image\/|dm\/|img\/)/.test(m.src)){const im=new Image();im.src=m.src;im.alt=r.product;box.append(im);}
+    else{box.classList.add('ph');box.textContent=r.category.slice(0,2);}return box;};
+  const ic=$('#insights .fs-icards');skel(ic,P);ic.replaceChildren();
+  const addBox=$('#insights .fs-iadd');addBox.replaceChildren();addBox.hidden=true;
+  const foot=$('#insights .fs-ifoot');foot.replaceChildren();
+  if(P.status==='ok'&&prods.length){
+    const w=(r)=>'campaign='+enc(r.campaign)+'&product='+enc(r.product);
+    const big=(field,r,text)=>{const s=el('div','fs-ibig',text);s.dataset.source='prod';s.dataset.field=field;s.dataset.where=w(r);return s;};
+    const byRev=prods.slice().sort((a,b)=>b.revenue-a.revenue);
+    const bySt=prods.slice().sort((a,b)=>b.sellthru-a.sellthru);
+    const card=(tag,color,r,bigEl,sub)=>{
+      const c=el('div','fs-icard');c.style.setProperty('--fs-ic',color);
+      const body=el('div','fs-ibody');body.append(el('span','fs-itag',tag),el('div','fs-iname',r.product),bigEl,el('div','fs-isub',sub));
+      const m=imgOf(r);if(m&&m.price)body.append(el('span','fs-iprice','DM：'+m.price));
+      c.append(pic(r),body);
+      c.addEventListener('pointermove',(e)=>showTip(e,r.product,[`營業額 ${money(r.revenue)}（${fPct(r.revShare)}）`,`銷售 ${fInt(r.sold)}／下單 ${num(r.ordered)}，售出率 ${pct(r.sellthru)}`]));
+      c.addEventListener('pointerleave',hideTip);
+      return c;};
+    const used=new Set();const pickFirst=(list,skip)=>list.find((r)=>!skip.has(r.product))||list[0];
+    const r1=byRev[0];used.add(r1.product);
+    ic.append(card('營收冠軍',dash.colors[0],r1,big('revenue',r1,money(r1.revenue)),`佔整檔 ${fPct(r1.revShare)}・售出率 ${pct(r1.sellthru)}`));
+    if(byRev.length>1){const r2=byRev[1];used.add(r2.product);
+      ic.append(card('營收第二',dash.colors[0],r2,big('revenue',r2,money(r2.revenue)),`佔整檔 ${fPct(r2.revShare)}・售出率 ${pct(r2.sellthru)}`));}
+    const hasSt=prods.every((r)=>r.sellthru!=null);
+    if(hasSt){
+      const fast=pickFirst(bySt,used);used.add(fast.product);
+      ic.append(card('賣最快','var(--color-ok)',fast,big('sellthru',fast,pct(fast.sellthru)),`售出率・賣出 ${fInt(fast.sold)}／下單 ${num(fast.ordered)} 件`));
+      const slow=bySt[bySt.length-1];
+      if(!used.has(slow.product))ic.append(card('賣最慢','var(--color-bad)',slow,big('sellthru',slow,pct(slow.sellthru)),`售出率・剩 ${num(slow.unsold)} 件，下次可考慮減量或換款`));
+    }else{
+      const bySold=prods.slice().sort((a,b)=>b.sold-a.sold);
+      const top=pickFirst(bySold,used);used.add(top.product);
+      ic.append(card('銷量冠軍','var(--color-ok)',top,big('sold',top,fInt(top.sold)+' 件'),`佔整檔銷量 ${fPct(top.sold/d3.sum(prods,(r)=>r.sold))}`));
+      const low=bySold[bySold.length-1];
+      if(!used.has(low.product))ic.append(card('銷量最少','var(--color-bad)',low,big('sold',low,fInt(low.sold)+' 件'),'這份資料沒有下單量，無法算售出率'));
+    }
+    const addedRows=prods.filter((r)=>r.added);
+    if(addedRows.length){
+      const st=d3.sum(addedRows,(r)=>r.sold)/d3.sum(addedRows,(r)=>r.ordered);
+      addBox.append(el('h3',null,`有追加下單的 ${addedRows.length} 項，合計售出率 ${fPct(st)}`));
+      const row=el('div','fs-iadd-row');
+      addedRows.slice().sort((a,b)=>b.sellthru-a.sellthru).forEach((r)=>{
+        const it=el('div','fs-iadd-item');const p=el('span','p',pct(r.sellthru));p.dataset.source='prod';p.dataset.field='sellthru';p.dataset.where=w(r);
+        it.append(pic(r),el('span','n',r.product),p);row.append(it);});
+      addBox.append(row);addBox.hidden=false;
+    }
+    const catRows=B.status==='ok'?B.data.filter((r)=>r.campaign===sel):[];
+    if(catRows.length>1){
+      const cs=catRows.sort((a,b)=>b.revenue-a.revenue);
+      const mc=(r,text)=>{const s=el('b',null,text);s.dataset.source='bycat';s.dataset.field='revShare';s.dataset.where='campaign='+enc(r.campaign)+'&category='+enc(r.category);return s;};
+      foot.append('分類上以 ',el('b',null,cs[0].category),' 營業額最高（',mc(cs[0],fPct(cs[0].revShare)),'），',el('b',null,cs[cs.length-1].category),' 最低（',mc(cs[cs.length-1],fPct(cs[cs.length-1].revShare)),'）。');
+    }
+  }else if(bad(P))failBox(ic);
+
+  // category
+  const cb=$('#category .fs-cat');skel(cb,B);cb.replaceChildren();
+  if(B.status==='ok'){
+    const cs=B.data.filter((r)=>r.campaign===sel).sort((a,b)=>b.revenue-a.revenue);
+    const mx=d3.max(cs,(r)=>r.revenue)||1;
+    cs.forEach((r)=>{
+      const row=el('div','fs-cat-row');
+      const nmx=el('span','nm');const sw=el('span','fs-sw');sw.style.background=catColor(r.category);nmx.append(sw,r.category);
+      const tr=el('div','fs-track');const f=el('div','fs-fill');f.style.width=(r.revenue/mx*100)+'%';f.style.background=catColor(r.category);tr.append(f);
+      row.append(nmx,tr,el('span','val',`${money(r.revenue)}（${fPct(r.revShare)}）`),
+        el('span','sub',`${r.sku} 項・銷售數佔比 ${fPct(r.unitShare)}・`+(r.sellthru!=null?`售出率 ${pct(r.sellthru)}（${fInt(r.sold)}／${num(r.ordered)}）`:`銷售 ${fInt(r.sold)} 件`)));
+      row.addEventListener('pointermove',(e)=>showTip(e,r.category,[`營業額 ${money(r.revenue)}（${fPct(r.revShare)}）`,`銷售 ${fInt(r.sold)} 件（佔 ${fPct(r.unitShare)}）`,`下單 ${num(r.ordered)} 件，售出率 ${pct(r.sellthru)}`]));
+      row.addEventListener('pointerleave',hideTip);
+      cb.append(row);
+    });
+  }else if(bad(B))failBox(cb);
+
+  // legend
+  const lg=$('.fs-legend');lg.replaceChildren();
+  [...new Set(prods.map((r)=>r.category))].forEach((c)=>{const s=el('span');const sw=el('span','fs-sw');sw.style.background=catColor(c);s.append(sw,c);lg.append(s);});
+
+  // ranking
+  const rb=$('#ranking .fs-rank');skel(rb,P);rb.replaceChildren();
+  if(P.status==='ok'){
+    const rs=prods.slice().sort((a,b)=>b.revenue-a.revenue);const mx=d3.max(rs,(r)=>r.revenue)||1;
+    rs.forEach((r,i)=>{
+      const row=el('div','fs-rank-row');
+      const tr=el('span','fs-track');const f=el('span','fs-fill');f.style.display='block';f.style.width=(r.revenue/mx*100)+'%';f.style.background=catColor(r.category);tr.append(f);
+      row.append(el('span','n',String(i+1)),el('span','name',r.product),tr,el('span','val',money(r.revenue)),el('span','pct',fPct(r.revShare)));
+      row.addEventListener('pointermove',(e)=>showTip(e,r.product,[r.category,`營業額 ${money(r.revenue)}（佔 ${fPct(r.revShare)}）`,`銷售 ${fInt(r.sold)}／下單 ${num(r.ordered)}，售出率 ${pct(r.sellthru)}`]));
+      row.addEventListener('pointerleave',hideTip);
+      rb.append(row);
+    });
+  }else if(bad(P))failBox(rb);
+
+  // scatter
+  drawScatter(P,prods,sum);
+
+  // table
+  drawTable(P,prods);
+}
+
+function drawScatter(P,rows,sum){
+  const box=$('#scatter .fs-svg');skel(box,P);box.replaceChildren();
+  if(P.status!=='ok'){if(bad(P))failBox(box);return;}
+  if(!rows.length)return;
+  const W=Math.max(280,box.clientWidth||600),H=Math.round(Math.max(300,Math.min(420,W*0.62)));
+  const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('role','img').attr('aria-label','售出率與營業額散佈圖');
+  const y=d3.scaleLinear([0,d3.max(rows,(r)=>r.revenue)*1.08],[H-40,14]).nice();
+  const yt=y.ticks(5);
+  let ml=0;const probe=svg.append('g');
+  yt.forEach((v)=>{const t=probe.append('text').text(wan(v));ml=Math.max(ml,t.node().getComputedTextLength());});probe.remove();
+  ml=Math.ceil(ml)+12;
+  const useSt=rows.every((r)=>r.sellthru!=null);
+  const xv=(r)=>useSt?r.sellthru:r.sold;
+  $('#sc-title').textContent=useSt?'售出率 × 營業額':'銷售數 × 營業額';
+  $('#sc-note').textContent=useSt?(pts=>pts>16?'虛線為整檔平均售出率與商品營業額中位數；商品多時只標出營業額前 10 名，滑過圓點看其他商品。':'虛線為整檔平均售出率與商品營業額中位數，滑過圓點看明細。')(rows.length):'這份資料沒有下單量，改用銷售數；虛線為銷售數與營業額的中位數，滑過圓點看明細。';
+  const x=d3.scaleLinear([0,useSt?Math.min(1,d3.max(rows,xv)*1.08):d3.max(rows,xv)*1.08],[ml,W-14]).nice();
+  const g=svg.append('g');
+  yt.forEach((v)=>{g.append('line').attr('x1',ml).attr('x2',W-14).attr('y1',y(v)).attr('y2',y(v)).attr('stroke','var(--cds-chart-grid)');
+    g.append('text').attr('x',ml-8).attr('y',y(v)).attr('dy','0.32em').attr('text-anchor','end').text(wan(v));});
+  const xt=x.ticks(W<420?4:6);
+  xt.forEach((v)=>{g.append('text').attr('x',x(v)).attr('y',H-22).attr('text-anchor','middle').text(useSt?fPct(v):fInt(v));});
+  g.append('line').attr('x1',ml).attr('x2',W-14).attr('y1',y(0)).attr('y2',y(0)).attr('stroke','var(--cds-chart-axis)');
+  g.append('text').attr('x',W-14).attr('y',H-4).attr('text-anchor','end').text(useSt?'售出率 →':'銷售數 →');
+  // references
+  const avg=useSt?sum.sellthru:d3.median(rows,xv),med=d3.median(rows,(r)=>r.revenue);
+  g.append('line').attr('x1',x(avg)).attr('x2',x(avg)).attr('y1',y.range()[1]).attr('y2',y(0)).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 4');
+  g.append('line').attr('x1',ml).attr('x2',W-14).attr('y1',y(med)).attr('y2',y(med)).attr('stroke','var(--cds-chart-reference)').attr('stroke-dasharray','4 4');
+  const q=[[W-18,y.range()[1]+4,'end','熱賣主力'],[ml+6,y.range()[1]+4,'start','高單價撐營收'],[W-18,y(0)-8,'end','小物好賣'],[ml+6,y(0)-8,'start','待檢討']];
+  q.forEach(([qx,qy,a,t],i)=>g.append('text').attr('class','q').attr('x',qx).attr('y',qy).attr('dy',i<2?'0.9em':0).attr('text-anchor',a).text(t));
+  // dots
+  const pts=rows.map((r)=>({r,cx:x(xv(r)),cy:y(r.revenue)}));
+  g.selectAll('circle.d').data(pts).join('circle').attr('class','d').attr('cx',(d)=>d.cx).attr('cy',(d)=>d.cy).attr('r',7)
+    .attr('fill',(d)=>catColor(d.r.category)).attr('fill-opacity',0.85).attr('stroke','var(--color-panel)').attr('stroke-width',1.5)
+    .on('pointermove',(e,d)=>{d3.select(e.currentTarget).attr('r',10);showTip(e,d.r.product,[`售出率 ${pct(d.r.sellthru)}（${fInt(d.r.sold)}／${num(d.r.ordered)}）`,`營業額 ${money(d.r.revenue)}`,d.r.category]);})
+    .on('pointerleave',(e)=>{d3.select(e.currentTarget).attr('r',7);hideTip();});
+  // labels for every point: strip a shared name prefix, then place each label where it overlaps nothing
+  const names=rows.map((r)=>short(r.product));
+  let pre=names.length>1?names.reduce((a,b)=>{let i=0;while(i<a.length&&a[i]===b[i])i++;return a.slice(0,i);}):'';
+  if(pre.length<2)pre='';
+  const R=7,boxes=pts.map((p)=>({x0:p.cx-R,x1:p.cx+R,y0:p.cy-R,y1:p.cy+R}));
+  g.selectAll('text.q').each(function(){const bb=this.getBBox();boxes.push({x0:bb.x,x1:bb.x+bb.width,y0:bb.y,y1:bb.y+bb.height});});
+  const hit=(b)=>boxes.some((o)=>b.x0<o.x1&&b.x1>o.x0&&b.y0<o.y1&&b.y1>o.y0);
+  const lh=15,gap=4;
+  const order=pts.slice().sort((a,b)=>b.r.revenue-a.r.revenue);
+  const maxLab=pts.length>16?10:pts.length;
+  order.slice(0,maxLab).forEach((p)=>{
+    const t=g.append('text').attr('class','lbl').text(short(p.r.product).slice(pre.length)||short(p.r.product));
+    const w=t.node().getComputedTextLength();
+    const cands=[[R+gap,0,'start'],[-R-gap,0,'end'],[R,-lh,'start'],[R,lh,'start'],[-R,-lh,'end'],[-R,lh,'end'],[0,-lh-2,'middle'],[0,lh+2,'middle']];
+    let chosen=null;
+    for(const [dx,dy,a] of cands){
+      const lx=p.cx+dx,ly=p.cy+dy;
+      const x0=a==='start'?lx:a==='end'?lx-w:lx-w/2;
+      const b={x0,x1:x0+w,y0:ly-lh/2,y1:ly+lh/2};
+      if(b.x0<ml||b.x1>W-4||b.y0<4||b.y1>y(0))continue;
+      if(!hit(b)){chosen={x:lx,y:ly,a,b};break;}
+    }
+    if(!chosen&&pts.length>16){t.remove();return;}
+    if(!chosen){
+      // nothing free: put it right (or left at the edge) and accept a small overlap
+      const right=p.cx+R+gap+w<W-4;const lx=right?p.cx+R+gap:p.cx-R-gap;
+      chosen={x:lx,y:p.cy,a:right?'start':'end',b:{x0:right?lx:lx-w,x1:right?lx+w:lx,y0:p.cy-lh/2,y1:p.cy+lh/2}};
+    }
+    boxes.push(chosen.b);
+    t.attr('x',chosen.x).attr('y',chosen.y).attr('dy','0.32em').attr('text-anchor',chosen.a);
+  });
+  if(pre){g.append('text').attr('x',ml).attr('y',H-4).attr('text-anchor','start').text(`品名省略「${pre}」`);}
+}
+
+function drawTable(P,rows){
+  const tb=$('#detail tbody');tb.replaceChildren();
+  if(P.status!=='ok'){if(bad(P)){const tr=el('tr');const td=el('td');td.colSpan=8;failBox(td);tr.append(td);tb.append(tr);}return;}
+  const qq=query.trim().toLowerCase();
+  const list=rows.filter((r)=>!qq||(r.product+r.category).toLowerCase().includes(qq))
+    .sort((a,b)=>{const va=a[sortKey],vb=b[sortKey];return (typeof va==='number'?va-vb:String(va).localeCompare(String(vb),'zh-Hant'))*sortDir;});
+  list.forEach((r)=>{
+    const tr=el('tr',r.sellthru==null?null:r.sellthru>=0.6?'row-good':r.sellthru<=0.2?'row-bad':null);tr.dataset.key=enc(r.campaign)+','+enc(r.product);
+    const stCell=el('td','num');const wrap=el('div','fs-st-cell');const trk=el('span','fs-track');const f=el('span','fs-fill');
+    f.style.display='block';f.style.width=Math.min(100,r.sellthru*100)+'%';f.style.background=dash.colors[0];trk.append(f);
+    const tx=el('span',r.sellthru==null?null:r.sellthru>=0.6?'fs-good':r.sellthru<=0.2?'fs-bad':null,pct(r.sellthru));wrap.append(trk,tx);stCell.append(wrap);
+    const ordCell=el('td','num hide-n');
+    if(r.added)ordCell.append(el('span','fs-tag','追加'),' ');
+    ordCell.append(num(r.ordered));
+    tr.append(el('td',null,r.product),el('td','hide-n',r.category),ordCell,
+      el('td','num',fInt(r.sold)),stCell,el('td','num',money(r.revenue)),el('td','num hide-n',fPct(r.revShare)));
+    tb.append(tr);
+  });
+  document.querySelectorAll('#detail th').forEach((th)=>{const f=th.dataset.field;th.setAttribute('aria-sort',f===sortKey?(sortDir>0?'ascending':'descending'):'none');
+    const b=th.querySelector('button');b.textContent=b.textContent.replace(/[ ▲▼]+$/,'')+(f===sortKey?(sortDir>0?' ▲':' ▼'):'');});
+}
+document.querySelectorAll('#detail th button').forEach((b)=>b.addEventListener('click',()=>{
+  const k=b.dataset.sort;if(sortKey===k)sortDir=-sortDir;else{sortKey=k;sortDir=(k==='product'||k==='category')?1:-1;}
+  const sel=dash.params().campaign;const P=dash.data('prod');drawTable(P,P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[]);}));
+$('.fs-search').addEventListener('input',(e)=>{query=e.target.value;const sel=dash.params().campaign;const P=dash.data('prod');drawTable(P,P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[]);});
+
+const dlg=$('#dm-dialog');
+dlg.querySelector('.fs-dlg-x').addEventListener('click',()=>dlg.close?dlg.close():dlg.removeAttribute('open'));
+dlg.addEventListener('click',(e)=>{if(e.target===dlg&&dlg.close)dlg.close();});
+dash.onData(draw);
+})();
+</script>
+</div></body></html>
