@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=fd1790c1').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=546c6978').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
