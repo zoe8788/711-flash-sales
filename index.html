@@ -119,12 +119,13 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-empty{display:flex;align-items:center;justify-content:center;text-align:center;border:1px dashed var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-xl);color:var(--color-fg-muted);font-size:var(--cds-font-size-heading)}
 /* category */
 .fs-cat{display:flex;flex-direction:column;gap:var(--cds-gap-md)}
-.fs-cat-row{display:grid;grid-template-columns:minmax(5.5rem,auto) 1fr auto;gap:var(--cds-gap-xs) var(--cds-gap-sm);align-items:center}
+.fs-cat-row{display:grid;grid-template-columns:8.5rem 1fr 10rem;gap:var(--cds-gap-xs) var(--cds-gap-sm);align-items:center}
 .fs-cat-row .nm{display:flex;align-items:center;gap:6px;font-weight:var(--cds-font-weight-medium)}
 .fs-sw{width:.75rem;height:.75rem;border-radius:3px;flex:none}
 .fs-track{height:22px;background:var(--cds-chart-grid);border-radius:4px;overflow:hidden}
 .fs-fill{height:100%;border-radius:4px}
 .fs-cat-row .val{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+@media (max-width:560px){.fs-cat-row{grid-template-columns:6.5rem 1fr}.fs-cat-row .val{grid-column:2;text-align:left}.fs-cat-row .sub{grid-column:1 / -1}}
 .fs-cat-row .sub{grid-column:2 / 4;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 /* ranking */
 .fs-legend{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs) var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-bottom:var(--cds-gap-sm)}
@@ -380,7 +381,8 @@ const skel=(node,d)=>node.classList.toggle('dash-skeleton',d.status==='loading')
 
 /* ---------- category colours ---------- */
 let cats=[];
-const catColor=(c)=>{let i=cats.indexOf(c);if(i<0){cats.push(c);i=cats.length-1;}return dash.colors[i%dash.colors.length];};
+const EXTRA=['#d1495b','#00798c','#edae49','#66a182','#8d6a9f','#3d5a80','#e07a5f','#6c757d'];
+const catColor=(c)=>{const pal=[...dash.colors,...EXTRA];let i=cats.indexOf(c);if(i<0){cats.push(c);i=cats.length-1;}return pal[i%pal.length];};
 
 /* ---------- gantt ---------- */
 const scroller=$('.fs-g-scroll'),inner=$('.fs-g-inner');
@@ -515,7 +517,9 @@ let sortKey='revenue',sortDir=-1,query='';
 function draw(){
   const sel=dash.params().campaign;
   const C=dash.data('campaigns'),S=dash.data('summary'),B=dash.data('bycat'),P=dash.data('prod');
-  if(P.status==='ok')P.data.forEach((r)=>catColor(r.category));
+  // colours are assigned per campaign, so categories shown together never share a colour
+  cats=[];
+  if(B.status==='ok')B.data.filter((r)=>r.campaign===dash.params().campaign).sort((a,b)=>b.revenue-a.revenue).forEach((r)=>catColor(r.category));
   drawGantt(C,sel,dash.data('byyear'));
 
   // campaign header
