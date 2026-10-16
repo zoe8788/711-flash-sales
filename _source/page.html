@@ -126,8 +126,11 @@
 .fs-ins b{font-weight:var(--cds-font-weight-medium)}
 /* scatter */
 .fs-svg{min-height:320px;position:relative}
-.fs-sc-legend{list-style:none;margin:var(--cds-gap-sm) 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:4px var(--cds-gap-md);font-size:var(--cds-font-size-caption)}
-.fs-sc-legend li{display:flex;align-items:center;gap:6px;min-width:0}
+.fs-sc-legend{list-style:none;margin:var(--cds-gap-md) 0 0;padding:var(--cds-gap-sm) 0 0;border-top:1px solid var(--color-border-line);display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:2px var(--cds-gap-lg);font-size:var(--cds-font-size-caption)}
+.fs-sc-legend li{display:flex;align-items:center;gap:6px;min-width:0;padding:2px 4px;border-radius:4px}
+.fs-sc-legend li.on{background:var(--color-bg)}
+.fs-sc-legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fs-sc-legend .v{color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .fs-sc-legend .n{flex:none;width:18px;height:18px;border-radius:50%;color:#fff;font-weight:600;font-size:10px;display:inline-flex;align-items:center;justify-content:center}
 .fs-svg text{font-size:var(--cds-font-size-caption);fill:var(--color-fg-muted)}
 .fs-svg text.lbl{fill:var(--color-fg)}
@@ -665,7 +668,7 @@ function drawScatter(P,rows,sum){
   const box=$('#scatter .fs-svg');skel(box,P);box.replaceChildren();
   if(P.status!=='ok'){if(bad(P))failBox(box);return;}
   if(!rows.length)return;
-  const W=Math.max(280,box.clientWidth||600),H=Math.round(Math.max(300,Math.min(420,W*0.62))+(rows.length>16?Math.min(260,(rows.length-16)*9):0));
+  const W=Math.max(280,box.clientWidth||600),H=Math.round(Math.max(300,Math.min(420,W*0.62))+(rows.length>16?Math.min(140,(rows.length-16)*5):0));
   const svg=d3.select(box).append('svg').attr('width','100%').attr('viewBox',`0 0 ${W} ${H}`).attr('role','img').attr('aria-label','售出率與營業額散佈圖');
   const y=d3.scaleLinear([0,d3.max(rows,(r)=>r.revenue)*1.08],[H-40,14]).nice();
   const yt=y.ticks(5);
@@ -676,7 +679,8 @@ function drawScatter(P,rows,sum){
   const xv=(r)=>useSt?r.sellthru:r.sold;
   $('#sc-title').textContent=useSt?'售出率 × 營業額':'銷售數 × 營業額';
   $('#sc-note').textContent=useSt?'虛線為整檔平均售出率與商品營業額中位數，滑過圓點看明細。':'這份資料沒有下單量，改用銷售數；虛線為銷售數與營業額的中位數，滑過圓點看明細。';
-  const x=d3.scaleLinear([0,useSt?Math.min(1,d3.max(rows,xv)*1.08):d3.max(rows,xv)*1.08],[ml,W-14]).nice();
+  const xmax=d3.max(rows,xv);
+  const x=d3.scaleLinear([0,useSt?(xmax>1?xmax*1.05:Math.min(1,xmax*1.08)):xmax*1.08],[ml,W-14]).nice();
   const g=svg.append('g');
   yt.forEach((v)=>{g.append('line').attr('x1',ml).attr('x2',W-14).attr('y1',y(v)).attr('y2',y(v)).attr('stroke','var(--cds-chart-grid)');
     g.append('text').attr('x',ml-8).attr('y',y(v)).attr('dy','0.32em').attr('text-anchor','end').text(wan(v));});
@@ -706,14 +710,40 @@ function drawScatter(P,rows,sum){
   const lh=15,gap=4;
   const order=pts.slice().sort((a,b)=>b.r.revenue-a.r.revenue);
   const crowded=pts.length>16;
-  const fs=crowded?11:12, lh2=crowded?13:15;
   const leaders=g.insert('g',':first-child');
-  const numbered=[];
+  if(crowded){
+    // many products: every dot becomes a numbered bubble (number = rank in 商品營業額排行),
+    // bubbles are nudged apart so none overlap, and a thin line points back to the true position
+    g.selectAll('circle.d').attr('r',2.5).attr('fill-opacity',1).attr('stroke','none').style('pointer-events','none');
+    const BR=9.5;
+    const nodes=order.map((p,i)=>({p,n:i+1,x:p.cx,y:p.cy,tx:p.cx,ty:p.cy}));
+    const sim=d3.forceSimulation(nodes)
+      .force('x',d3.forceX((d)=>d.tx).strength(0.35)).force('y',d3.forceY((d)=>d.ty).strength(0.35))
+      .force('c',d3.forceCollide(BR+1.5)).stop();
+    for(let i=0;i<240;i++){sim.tick();nodes.forEach((d)=>{d.x=Math.max(ml+BR,Math.min(W-14-BR,d.x));d.y=Math.max(BR+2,Math.min(y(0)-BR,d.y));});}
+    const legend=d3.select(box).append('ol').attr('class','fs-sc-legend');
+    const items=new Map();
+    const hl=(n,on)=>{bub.filter((d)=>d.n===n).select('circle').attr('r',on?BR+3:BR);const li=items.get(n);if(li)li.classed('on',on);};
+    nodes.forEach((d)=>{if(Math.hypot(d.x-d.tx,d.y-d.ty)>BR*0.6)leaders.append('line').attr('x1',d.tx).attr('y1',d.ty).attr('x2',d.x).attr('y2',d.y).attr('stroke',catColor(d.p.r.category)).attr('stroke-opacity',.55).attr('stroke-width',1);});
+    const bub=g.selectAll('g.bub').data(nodes).join('g').attr('class','bub').attr('transform',(d)=>`translate(${d.x},${d.y})`).style('cursor','default');
+    bub.append('circle').attr('r',BR).attr('fill',(d)=>catColor(d.p.r.category)).attr('stroke','var(--color-panel)').attr('stroke-width',1.5);
+    bub.append('text').attr('dy','0.35em').attr('text-anchor','middle').style('font-size','10px').style('font-weight','600').style('fill','#fff').style('pointer-events','none').text((d)=>d.n);
+    bub.on('pointermove',(e,d)=>{hl(d.n,true);showTip(e,`${d.n}. ${d.p.r.product}`,[`售出率 ${pct(d.p.r.sellthru)}（${fInt(d.p.r.sold)}／${num(d.p.r.ordered)}）`,`營業額 ${money(d.p.r.revenue)}`,d.p.r.category]);})
+       .on('pointerleave',(e,d)=>{hl(d.n,false);hideTip();});
+    nodes.forEach((d)=>{
+      const li=legend.append('li');items.set(d.n,li);
+      li.append('span').attr('class','n').style('background',catColor(d.p.r.category)).text(d.n);
+      li.append('span').attr('class','nm').text(short(d.p.r.product));
+      li.append('span').attr('class','v').text(useSt?pct(d.p.r.sellthru):fInt(d.p.r.sold)+' 件');
+      li.on('pointerenter',()=>hl(d.n,true)).on('pointerleave',()=>hl(d.n,false));
+    });
+    $('#sc-note').textContent=(useSt?'虛線為整檔平均售出率與商品營業額中位數。':'這份資料沒有下單量，改用銷售數。')+'圓點數字＝營業額排名（同下方「商品營業額排行」），滑過圓點或清單會互相標亮。';
+  } else {
+  const fs=12, lh2=15;
   order.forEach((p)=>{
     const t=g.append('text').attr('class','lbl').style('font-size',fs+'px').text(short(p.r.product).slice(pre.length)||short(p.r.product));
     const w=t.node().getComputedTextLength();
     let chosen=null;
-    // try rings around the point: close first, then further out with a leader line
     outer: for(const ring of [0,1,2,3,4,5,6]){
       const ox=R+gap+ring*14, oy=ring*lh2;
       const cands=ring===0
@@ -727,7 +757,7 @@ function drawScatter(P,rows,sum){
         if(!hit(b)){chosen={x:lx,y:ly,a,b,far:ring>0};break outer;}
       }
     }
-    if(!chosen){ t.remove(); numbered.push(p); return; }
+    if(!chosen){const right=p.cx+R+gap+w<W-4;const lx=right?p.cx+R+gap:p.cx-R-gap;chosen={x:lx,y:p.cy,a:right?'start':'end',b:{x0:right?lx:lx-w,x1:right?lx+w:lx,y0:p.cy-lh2/2,y1:p.cy+lh2/2}};}
     boxes.push(chosen.b);
     t.attr('x',chosen.x).attr('y',chosen.y).attr('dy','0.32em').attr('text-anchor',chosen.a);
     if(chosen.far){
@@ -735,15 +765,7 @@ function drawScatter(P,rows,sum){
       leaders.append('line').attr('x1',p.cx).attr('y1',p.cy).attr('x2',tx).attr('y2',ty).attr('stroke','var(--cds-chart-axis)').attr('stroke-width',1);
     }
   });
-  // dots with no room for a name: number them and list the names below the chart
-  const legend=d3.select(box).append('ol').attr('class','fs-sc-legend');
-  numbered.sort((a,b)=>a.cx-b.cx||a.cy-b.cy).forEach((p,i)=>{
-    const n=i+1;
-    g.append('circle').attr('cx',p.cx).attr('cy',p.cy).attr('r',8.5).attr('fill',catColor(p.r.category)).attr('stroke','var(--color-panel)').attr('stroke-width',1.5).style('pointer-events','none');
-    g.append('text').attr('x',p.cx).attr('y',p.cy).attr('dy','0.35em').attr('text-anchor','middle').style('font-size','10px').style('font-weight','600').style('fill','#fff').style('pointer-events','none').text(n);
-    const li=legend.append('li');li.append('span').attr('class','n').style('background',catColor(p.r.category)).text(n);li.append('span').text(short(p.r.product));
-  });
-  if(!numbered.length)legend.remove();
+  }
   if(pre){g.append('text').attr('x',ml).attr('y',H-4).attr('text-anchor','start').text(`品名省略「${pre}」`);}
 }
 
