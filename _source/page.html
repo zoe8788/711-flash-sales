@@ -132,7 +132,7 @@
 .fs-rs-pct{font-family:var(--font-anthropic-serif);font-size:var(--cds-font-size-heading);text-align:right;font-variant-numeric:tabular-nums}
 .fs-rs-tag{justify-self:end;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);border:1px solid;border-radius:999px;padding:1px 10px;white-space:nowrap}
 @media (max-width:760px){.fs-rs-row{grid-template-columns:44px 1fr auto}.fs-rs-row .fs-ipic.sm{width:44px;height:44px}.fs-rs-nums{grid-column:2 / -1;grid-row:2}.fs-rs-pct{display:none}}
-.fs-retail{margin-top:var(--cds-gap-md);padding:var(--cds-pad-md);background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);display:flex;flex-wrap:wrap;gap:var(--cds-gap-md) var(--cds-gap-xl);align-items:flex-start}
+.fs-retail{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md) var(--cds-gap-xl);align-items:flex-start}
 .fs-retail .hd{flex:1 1 14rem}
 .fs-retail .hd h3{margin:0;font-size:var(--cds-font-size-body);font-weight:var(--cds-font-weight-medium)}
 .fs-retail .hd p{margin:2px 0 0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
@@ -247,6 +247,8 @@
 
   <div id="analysis" class="fs" style="gap:var(--cds-gap-lg)">
 
+    <section class="fs-card" id="retail-card" hidden><div class="fs-retail" id="retail"></div></section>
+
     <section class="fs-card" id="insights">
       <h2>重點觀察</h2>
       <p class="fs-note">依這一檔數字自動整理；有 DM 的檔期會附上商品圖與 DM 售價。</p>
@@ -304,7 +306,6 @@
           <tbody></tbody>
         </table>
       </div>
-      <div class="fs-retail" id="retail" hidden></div>
       <div class="fs-remarks" id="remarks" hidden></div>
     </section>
   </div>
@@ -610,12 +611,12 @@ function draw(){
   const PR=dash.data('prod');const rrows=PR.status==='ok'?PR.data.filter((r)=>r.campaign===sel&&r.retail!=null):[];
   if(rrows.length){
     const tot=d3.sum(rrows,(r)=>r.retail),qty=d3.sum(rrows,(r)=>r.sold);
-    const hd=el('div','hd');hd.append(el('h3',null,'售價總結'),el('p',null,'門市加價購售價 × 銷售數（上方表格的營業額為成本價計）'),el('div','big',money(tot)),el('p',null,`${fInt(qty)} 件・平均售價 ${money(tot/qty)}`));
+    const hd=el('div','hd');hd.append(el('h3',null,'售價總結'),el('p',null,'門市加價購售價 × 銷售數。看板其他營業額皆以成本價含稅計。'),el('div','big',money(tot)),el('p',null,`${fInt(qty)} 件・平均售價 ${money(tot/qty)}`));
     const ul=el('ul');
     d3.rollups(rrows,(v)=>d3.sum(v,(r)=>r.retail),(r)=>r.category).sort((a,b)=>b[1]-a[1]).forEach(([c,v])=>{const li=el('li');li.append(el('span',null,c),el('span',null,`${money(v)}（${fPct(v/tot)}）`));ul.append(li);});
     rt.append(hd,ul);
   }
-  rt.hidden=!rrows.length;
+  $('#retail-card').hidden=!rrows.length;
   const rm=$('#remarks');rm.replaceChildren();
   const rms=camp&&Array.isArray(camp.remarks)?camp.remarks:[];
   rms.forEach((t)=>{const d=el('div');d.append(el('b',null,'備註'),String(t));rm.append(d);});
