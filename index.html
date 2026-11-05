@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=398182d0').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=b54c04f0').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -169,6 +169,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-rs-pct{font-family:var(--font-anthropic-serif);font-size:var(--cds-font-size-heading);text-align:right;font-variant-numeric:tabular-nums}
 .fs-rs-tag{justify-self:end;font-size:var(--cds-font-size-caption);font-weight:var(--cds-font-weight-medium);border:1px solid;border-radius:999px;padding:1px 10px;white-space:nowrap}
 @media (max-width:760px){.fs-rs-row{grid-template-columns:44px 1fr auto}.fs-rs-row .fs-ipic.sm{width:44px;height:44px}.fs-rs-nums{grid-column:2 / -1;grid-row:2}.fs-rs-pct{display:none}}
+.fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
+.fs-remarks b{font-weight:var(--cds-font-weight-medium);margin-right:6px}
 .fs-ifoot{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-body);color:var(--color-fg-muted)}
 .fs-ifoot b{color:var(--color-fg);font-weight:var(--cds-font-weight-medium)}
 .fs-ins{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:var(--cds-gap-sm);font-size:var(--cds-font-size-heading)}
@@ -310,6 +312,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
           <tbody></tbody>
         </table>
       </div>
+      <div class="fs-remarks" id="remarks" hidden></div>
     </section>
   </div>
   <div class="fs-tip" role="tooltip"></div>
@@ -609,6 +612,10 @@ function draw(){
     const t=v==null?'—':k==='revenue'||k==='perday'?money(v):k==='sellthru'?fPct(v):fInt(v);
     setMark(n,'campaign='+enc(sel),t);
   });
+  const rm=$('#remarks');rm.replaceChildren();
+  const rms=camp&&Array.isArray(camp.remarks)?camp.remarks:[];
+  rms.forEach((t)=>{const d=el('div');d.append(el('b',null,'備註'),String(t));rm.append(d);});
+  rm.hidden=!rms.length;
   const noOrd=!!(sum&&sum.sku>0&&sum.ordered==null);
   $('#ks-rev').textContent=camp&&camp.revenue_basis==='retail'?'以加價購售價計（其他檔為成本價含稅）':'含稅';
   $('#ks-sell').hidden=noOrd;$('#ks-sell-no').hidden=!noOrd;$('#ks-ord').hidden=noOrd;
