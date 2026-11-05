@@ -2662,8 +2662,10 @@
 "product": "(閱讀)MF折疊自動傘",
 "ordered": 500,
 "sold": 77,
-"revenue": 38423,
-"added": false
+"revenue": 26195.4,
+"added": false,
+"retail_revenue": 38423,
+"retail_price": 499
 },
 {
 "campaign": "miffy-2611",
@@ -2672,8 +2674,10 @@
 "product": "(溜冰)MF折疊自動傘",
 "ordered": 500,
 "sold": 118,
-"revenue": 58882,
-"added": false
+"revenue": 40143.6,
+"added": false,
+"retail_revenue": 58882,
+"retail_price": 499
 },
 {
 "campaign": "miffy-2611",
@@ -2682,8 +2686,10 @@
 "product": "MF不鏽鋼冰壩杯",
 "ordered": 1000,
 "sold": 270,
-"revenue": 215730,
-"added": false
+"revenue": 165280.5,
+"added": false,
+"retail_revenue": 215730,
+"retail_price": 799
 },
 {
 "campaign": "miffy-2611",
@@ -2692,8 +2698,10 @@
 "product": "MF立體造型馬克杯",
 "ordered": 800,
 "sold": 241,
-"revenue": 96159,
-"added": false
+"revenue": 65539.9,
+"added": false,
+"retail_revenue": 96159,
+"retail_price": 399
 },
 {
 "campaign": "miffy-2611",
@@ -2702,8 +2710,10 @@
 "product": "MF立體造型陶盤",
 "ordered": 395,
 "sold": 271,
-"revenue": 108129,
-"added": false
+"revenue": 77113.1,
+"added": false,
+"retail_revenue": 108129,
+"retail_price": 399
 },
 {
 "campaign": "miffy-2611",
@@ -2712,8 +2722,10 @@
 "product": "(偷看)MF絨毛地墊",
 "ordered": 295,
 "sold": 278,
-"revenue": 124822,
-"added": false
+"revenue": 91656.6,
+"added": false,
+"retail_revenue": 124822,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2722,8 +2734,10 @@
 "product": "(波點)MF絨毛地墊",
 "ordered": 295,
 "sold": 274,
-"revenue": 123026,
-"added": false
+"revenue": 90337.8,
+"added": false,
+"retail_revenue": 123026,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2732,8 +2746,10 @@
 "product": "(坐坐)MF造型票卡夾",
 "ordered": 800,
 "sold": 236,
-"revenue": 58764,
-"added": false
+"revenue": 40143.6,
+"added": false,
+"retail_revenue": 58764,
+"retail_price": 249
 },
 {
 "campaign": "miffy-2611",
@@ -2742,8 +2758,10 @@
 "product": "(乖寶寶)MF造型票卡夾",
 "ordered": 800,
 "sold": 249,
-"revenue": 62001,
-"added": false
+"revenue": 42354.9,
+"added": false,
+"retail_revenue": 62001,
+"retail_price": 249
 },
 {
 "campaign": "miffy-2611",
@@ -2752,8 +2770,10 @@
 "product": "(黃)MF星星鑰匙圈",
 "ordered": 500,
 "sold": 156,
-"revenue": 31044,
-"added": false
+"revenue": 21130.2,
+"added": false,
+"retail_revenue": 31044,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2762,8 +2782,10 @@
 "product": "(粉)MF星星鑰匙圈",
 "ordered": 495,
 "sold": 208,
-"revenue": 41392,
-"added": false
+"revenue": 28173.6,
+"added": false,
+"retail_revenue": 41392,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2772,8 +2794,10 @@
 "product": "(紫)MF星星鑰匙圈",
 "ordered": 495,
 "sold": 213,
-"revenue": 42387,
-"added": false
+"revenue": 28850.9,
+"added": false,
+"retail_revenue": 42387,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2782,8 +2806,10 @@
 "product": "(橘)MF星星鑰匙圈",
 "ordered": 500,
 "sold": 165,
-"revenue": 32835,
-"added": false
+"revenue": 22349.3,
+"added": false,
+"retail_revenue": 32835,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2792,8 +2818,10 @@
 "product": "(米飛3839)MF室內拖",
 "ordered": 295,
 "sold": 220,
-"revenue": 98780,
-"added": false
+"revenue": 67452.0,
+"added": false,
+"retail_revenue": 98780,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2802,8 +2830,10 @@
 "product": "(米飛4041)MF室內拖",
 "ordered": 295,
 "sold": 95,
-"revenue": 42655,
-"added": false
+"revenue": 29127.0,
+"added": false,
+"retail_revenue": 42655,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2812,8 +2842,10 @@
 "product": "(小熊3839)MF室內拖",
 "ordered": 250,
 "sold": 58,
-"revenue": 26042,
-"added": false
+"revenue": 17782.8,
+"added": false,
+"retail_revenue": 26042,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2822,8 +2854,10 @@
 "product": "(小熊4041)MF室內拖",
 "ordered": 250,
 "sold": 61,
-"revenue": 27389,
-"added": false
+"revenue": 18702.6,
+"added": false,
+"retail_revenue": 27389,
+"retail_price": 449
 },
 {
 "campaign": "miffy-2611",
@@ -2832,8 +2866,10 @@
 "product": "(黑白)MF髮夾2入組",
 "ordered": 800,
 "sold": 125,
-"revenue": 24875,
-"added": false
+"revenue": 16931.3,
+"added": false,
+"retail_revenue": 24875,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2842,8 +2878,10 @@
 "product": "(摩卡)MF髮夾2入組",
 "ordered": 800,
 "sold": 126,
-"revenue": 25074,
-"added": false
+"revenue": 17066.7,
+"added": false,
+"retail_revenue": 25074,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2852,8 +2890,10 @@
 "product": "(奶茶)MF髮夾2入組",
 "ordered": 795,
 "sold": 490,
-"revenue": 97510,
-"added": false
+"revenue": 66370.5,
+"added": false,
+"retail_revenue": 97510,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2862,8 +2902,10 @@
 "product": "(緞帶)MF髮夾2入組",
 "ordered": 800,
 "sold": 185,
-"revenue": 36815,
-"added": false
+"revenue": 25058.3,
+"added": false,
+"retail_revenue": 36815,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2872,8 +2914,10 @@
 "product": "(點點)MF造型髮圈",
 "ordered": 800,
 "sold": 51,
-"revenue": 12699,
-"added": false
+"revenue": 8675.1,
+"added": false,
+"retail_revenue": 12699,
+"retail_price": 249
 },
 {
 "campaign": "miffy-2611",
@@ -2882,8 +2926,10 @@
 "product": "(格紋)MF造型髮圈",
 "ordered": 800,
 "sold": 115,
-"revenue": 28635,
-"added": false
+"revenue": 19561.5,
+"added": false,
+"retail_revenue": 28635,
+"retail_price": 249
 },
 {
 "campaign": "miffy-2611",
@@ -2892,8 +2938,10 @@
 "product": "(白)MF針織小吊飾",
 "ordered": 2000,
 "sold": 493,
-"revenue": 98107,
-"added": false
+"revenue": 66776.9,
+"added": false,
+"retail_revenue": 98107,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2902,8 +2950,10 @@
 "product": "(奶)MF針織小吊飾",
 "ordered": 1995,
 "sold": 754,
-"revenue": 150046,
-"added": false
+"revenue": 102129.3,
+"added": false,
+"retail_revenue": 150046,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2912,8 +2962,10 @@
 "product": "(藍)MF針織小吊飾",
 "ordered": 2000,
 "sold": 521,
-"revenue": 103679,
-"added": false
+"revenue": 70569.5,
+"added": false,
+"retail_revenue": 103679,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2922,8 +2974,10 @@
 "product": "MF萬花筒收納風琴包",
 "ordered": 1995,
 "sold": 922,
-"revenue": 183478,
-"added": false
+"revenue": 124884.9,
+"added": false,
+"retail_revenue": 183478,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -2932,8 +2986,10 @@
 "product": "米飛大頭絨毛零錢包",
 "ordered": 1000,
 "sold": 303,
-"revenue": 120897,
-"added": false
+"revenue": 82400.8,
+"added": false,
+"retail_revenue": 120897,
+"retail_price": 399
 },
 {
 "campaign": "miffy-2611",
@@ -2942,8 +2998,10 @@
 "product": "小熊大頭絨毛零錢包",
 "ordered": 1000,
 "sold": 152,
-"revenue": 60648,
-"added": false
+"revenue": 41336.4,
+"added": false,
+"retail_revenue": 60648,
+"retail_price": 399
 },
 {
 "campaign": "miffy-2611",
@@ -2952,8 +3010,10 @@
 "product": "MF兩用飲料杯袋",
 "ordered": 1995,
 "sold": 1450,
-"revenue": 361050,
-"added": false
+"revenue": 246645.0,
+"added": false,
+"retail_revenue": 361050,
+"retail_price": 249
 },
 {
 "campaign": "miffy-2611",
@@ -2962,8 +3022,10 @@
 "product": "MF車用頸枕",
 "ordered": 1000,
 "sold": 411,
-"revenue": 163989,
-"added": false
+"revenue": 111771.4,
+"added": false,
+"retail_revenue": 163989,
+"retail_price": 399
 },
 {
 "campaign": "miffy-2611",
@@ -2972,8 +3034,10 @@
 "product": "MF手提收納箱",
 "ordered": 300,
 "sold": 74,
-"revenue": 66526,
-"added": false
+"revenue": 45376.8,
+"added": false,
+"retail_revenue": 66526,
+"retail_price": 899
 },
 {
 "campaign": "miffy-2611",
@@ -2982,8 +3046,10 @@
 "product": "MF漫遊手提包",
 "ordered": 500,
 "sold": 169,
-"revenue": 135031,
-"added": false
+"revenue": 96355.3,
+"added": false,
+"retail_revenue": 135031,
+"retail_price": 799
 },
 {
 "campaign": "miffy-2611",
@@ -2992,8 +3058,10 @@
 "product": "MF漫遊肩背包",
 "ordered": 495,
 "sold": 184,
-"revenue": 147016,
-"added": false
+"revenue": 104907.6,
+"added": false,
+"retail_revenue": 147016,
+"retail_price": 799
 },
 {
 "campaign": "miffy-2611",
@@ -3002,8 +3070,10 @@
 "product": "MF漫遊水桶包",
 "ordered": 500,
 "sold": 83,
-"revenue": 66317,
-"added": false
+"revenue": 47322.4,
+"added": false,
+"retail_revenue": 66317,
+"retail_price": 799
 },
 {
 "campaign": "miffy-2611",
@@ -3012,8 +3082,10 @@
 "product": "米飛捲毛大頭抱枕",
 "ordered": 795,
 "sold": 447,
-"revenue": 312453,
-"added": false
+"revenue": 213084.9,
+"added": false,
+"retail_revenue": 312453,
+"retail_price": 699
 },
 {
 "campaign": "miffy-2611",
@@ -3022,8 +3094,10 @@
 "product": "瑪蓮捲毛大頭抱枕",
 "ordered": 800,
 "sold": 269,
-"revenue": 188031,
-"added": false
+"revenue": 128232.3,
+"added": false,
+"retail_revenue": 188031,
+"retail_price": 699
 },
 {
 "campaign": "miffy-2611",
@@ -3032,8 +3106,10 @@
 "product": "MF折疊收納旅行袋",
 "ordered": 1500,
 "sold": 162,
-"revenue": 113238,
-"added": false
+"revenue": 77225.4,
+"added": false,
+"retail_revenue": 113238,
+"retail_price": 699
 },
 {
 "campaign": "miffy-2611",
@@ -3042,8 +3118,10 @@
 "product": "MF造型護照套",
 "ordered": 1000,
 "sold": 336,
-"revenue": 100464,
-"added": false
+"revenue": 68443.2,
+"added": false,
+"retail_revenue": 100464,
+"retail_price": 299
 },
 {
 "campaign": "miffy-2611",
@@ -3052,8 +3130,10 @@
 "product": "MF行李箱束帶",
 "ordered": 1500,
 "sold": 473,
-"revenue": 141427,
-"added": false
+"revenue": 96350.1,
+"added": false,
+"retail_revenue": 141427,
+"retail_price": 299
 },
 {
 "campaign": "miffy-2611",
@@ -3062,8 +3142,10 @@
 "product": "(格紋)MF長抓夾",
 "ordered": 195,
 "sold": 167,
-"revenue": 33233,
-"added": false
+"revenue": 22620.2,
+"added": false,
+"retail_revenue": 33233,
+"retail_price": 199
 },
 {
 "campaign": "miffy-2611",
@@ -3072,8 +3154,10 @@
 "product": "(紅白)MF長抓夾",
 "ordered": 600,
 "sold": 126,
-"revenue": 18774,
-"added": false
+"revenue": 12833.1,
+"added": false,
+"retail_revenue": 18774,
+"retail_price": 149
 },
 {
 "campaign": "miffy-2611",
@@ -3082,8 +3166,10 @@
 "product": "(單入)歡樂聖誕盲盒",
 "ordered": 2995,
 "sold": 930,
-"revenue": 418500,
-"added": false
+"revenue": 296856.0,
+"added": false,
+"retail_revenue": 418500,
+"retail_price": 450
 },
 {
 "campaign": "miffy-2611",
@@ -3092,7 +3178,9 @@
 "product": "(套組)歡樂聖誕盲盒",
 "ordered": 495,
 "sold": 158,
-"revenue": 426442,
-"added": false
+"revenue": 302601.6,
+"added": false,
+"retail_revenue": 426442,
+"retail_price": 2699
 }
 ]
