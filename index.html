@@ -192,7 +192,18 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-tbox{max-height:34rem;overflow:auto}
 .fs-table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-body);font-variant-numeric:tabular-nums}
 .fs-table th{position:sticky;top:0;background:var(--color-panel);text-align:left;border-bottom:1px solid var(--color-border-line);padding:0;z-index:1}
-.fs-table th button{font:inherit;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);background:none;border:0;padding:var(--cds-pad-xs) var(--cds-pad-sm);cursor:pointer;width:100%;text-align:inherit;white-space:nowrap}
+.fs-table th button{font:inherit;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);background:none;border:0;padding:var(--cds-pad-xs) var(--cds-pad-sm);cursor:pointer;width:100%;text-align:inherit;white-space:nowrap;border-radius:4px}
+.fs-table th button:hover{color:var(--color-fg);background:var(--color-bg)}
+.fs-table th button .si{display:inline-block;width:1em;margin-left:4px;opacity:.35;font-size:.85em}
+.fs-table th[aria-sort=ascending] button,.fs-table th[aria-sort=descending] button{color:var(--color-fg)}
+.fs-table th[aria-sort=ascending] .si,.fs-table th[aria-sort=descending] .si{opacity:1;color:var(--color-fg)}
+.fs-filters{display:flex;flex-wrap:wrap;align-items:center;gap:var(--cds-gap-sm) var(--cds-gap-md);margin-bottom:var(--cds-gap-sm)}
+.fs-sel{font:inherit;font-size:var(--cds-font-size-body);padding:var(--cds-pad-xs) var(--cds-pad-sm);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-bg);color:var(--color-fg)}
+.fs-chips{display:flex;flex-wrap:wrap;gap:6px}
+.fs-chip-btn{font:inherit;font-size:var(--cds-font-size-caption);padding:3px 12px;border:1px solid var(--color-border-line);border-radius:999px;background:var(--color-bg);color:var(--color-fg-muted);cursor:pointer}
+.fs-chip-btn.on{background:var(--color-fg);border-color:var(--color-fg);color:var(--color-bg)}
+.fs-chip-btn[hidden]{display:none}
+.fs-fcount{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-left:auto}
 .fs-table th.num{text-align:right}
 .fs-table td{padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line)}
 .fs-table td.num{text-align:right;white-space:nowrap}
@@ -295,8 +306,18 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
     <section class="fs-card" id="detail">
       <div class="fs-tbar">
-        <div><h2>商品銷售明細</h2><p class="fs-note" style="margin-bottom:0">點欄位名稱可排序。<span class="fs-key"><i style="background:color-mix(in srgb, var(--color-ok) 35%, transparent)"></i>售出率 60% 以上</span><span class="fs-key"><i style="background:color-mix(in srgb, var(--color-bad) 35%, transparent)"></i>售出率 20% 以下</span><span class="fs-key"><span class="fs-tag">追加</span>有追加下單</span></p></div>
+        <div><h2>商品銷售明細</h2><p class="fs-note" style="margin-bottom:0">點任一欄位標題可排序，再點一次反向。<span class="fs-key"><i style="background:color-mix(in srgb, var(--color-ok) 35%, transparent)"></i>售出率 60% 以上</span><span class="fs-key"><i style="background:color-mix(in srgb, var(--color-bad) 35%, transparent)"></i>售出率 20% 以下</span><span class="fs-key"><span class="fs-tag">追加</span>有追加下單</span></p></div>
         <input class="fs-search" type="search" placeholder="搜尋商品或分類" aria-label="搜尋商品">
+      </div>
+      <div class="fs-filters" id="tfilters">
+        <select class="fs-sel" id="f-cat" aria-label="分類篩選"><option value="">全部分類</option></select>
+        <div class="fs-chips" role="group" aria-label="狀態篩選">
+          <button class="fs-chip-btn on" data-f="">全部</button>
+          <button class="fs-chip-btn" data-f="good">售出率 60% 以上</button>
+          <button class="fs-chip-btn" data-f="bad">售出率 20% 以下</button>
+          <button class="fs-chip-btn" data-f="added">有追加</button>
+        </div>
+        <span class="fs-fcount" id="f-count"></span>
       </div>
       <div class="fs-tbox">
         <table class="fs-table" data-source="prod" data-row-key="campaign,product">
@@ -533,7 +554,7 @@ $('#g-out').addEventListener('click',()=>zoom(1/1.5));
 const setMark=(node,where,text)=>{node.dataset.where=where;node.textContent=text;};
 
 /* ---------- main draw ---------- */
-let sortKey='revenue',sortDir=-1,query='';
+let sortKey='revenue',sortDir=-1,query='',catF='',statF='';
 function draw(){
   const sel=dash.params().campaign;
   const C=dash.data('campaigns'),S=dash.data('summary'),B=dash.data('bycat'),P=dash.data('prod');
@@ -859,7 +880,17 @@ function drawTable(P,rows){
   const tb=$('#detail tbody');tb.replaceChildren();
   if(P.status!=='ok'){if(bad(P)){const tr=el('tr');const td=el('td');td.colSpan=8;failBox(td);tr.append(td);tb.append(tr);}return;}
   const qq=query.trim().toLowerCase();
+  // category options follow the campaign; keep the choice if it still exists
+  const fc=$('#f-cat');const cats0=[...new Set(rows.map((r)=>r.category))];
+  if(fc.dataset.opts!==cats0.join('|')){const keep=fc.value;fc.replaceChildren(new Option('全部分類',''),...cats0.map((c)=>new Option(c,c)));fc.value=cats0.includes(keep)?keep:'';fc.dataset.opts=cats0.join('|');catF=fc.value;}
+  const addBtn=document.querySelector('.fs-chip-btn[data-f="added"]');addBtn.hidden=!rows.some((r)=>r.added);
+  const stOk=rows.some((r)=>r.sellthru!=null);
+  document.querySelectorAll('.fs-chip-btn[data-f="good"],.fs-chip-btn[data-f="bad"]').forEach((b)=>{b.hidden=!stOk;});
+  if((statF==='added'&&addBtn.hidden)||((statF==='good'||statF==='bad')&&!stOk))statF='';
+  document.querySelectorAll('.fs-chip-btn').forEach((b)=>b.classList.toggle('on',b.dataset.f===statF));
   const list=rows.filter((r)=>!qq||(r.product+r.category).toLowerCase().includes(qq))
+    .filter((r)=>!catF||r.category===catF)
+    .filter((r)=>!statF||(statF==='good'?r.sellthru>=0.6:statF==='bad'?r.sellthru!=null&&r.sellthru<=0.2:r.added))
     .sort((a,b)=>{const va=a[sortKey],vb=b[sortKey];return (typeof va==='number'?va-vb:String(va).localeCompare(String(vb),'zh-Hant'))*sortDir;});
   list.forEach((r)=>{
     const tr=el('tr',r.sellthru==null?null:r.sellthru>=0.6?'row-good':r.sellthru<=0.2?'row-bad':null);tr.dataset.key=enc(r.campaign)+','+enc(r.product);
@@ -873,12 +904,18 @@ function drawTable(P,rows){
       el('td','num',fInt(r.sold)),stCell,el('td','num',money(r.revenue)),el('td','num hide-n',fPct(r.revShare)));
     tb.append(tr);
   });
+  $('#f-count').textContent=list.length===rows.length?`共 ${rows.length} 項`:`顯示 ${list.length}／${rows.length} 項`;
+  if(!list.length){const tr=el('tr');const td=el('td',null,'沒有符合條件的商品');td.colSpan=7;td.style.textAlign='center';td.style.color='var(--color-fg-muted)';tr.append(td);tb.append(tr);}
   document.querySelectorAll('#detail th').forEach((th)=>{const f=th.dataset.field;th.setAttribute('aria-sort',f===sortKey?(sortDir>0?'ascending':'descending'):'none');
-    const b=th.querySelector('button');b.textContent=b.textContent.replace(/[ ▲▼]+$/,'')+(f===sortKey?(sortDir>0?' ▲':' ▼'):'');});
+    const b=th.querySelector('button');if(!b.dataset.label)b.dataset.label=b.textContent.replace(/[ ▲▼⇅]+$/,'');
+    b.replaceChildren(b.dataset.label,el('span','si',f===sortKey?(sortDir>0?'▲':'▼'):'⇅'));});
 }
 document.querySelectorAll('#detail th button').forEach((b)=>b.addEventListener('click',()=>{
   const k=b.dataset.sort;if(sortKey===k)sortDir=-sortDir;else{sortKey=k;sortDir=(k==='product'||k==='category')?1:-1;}
   const sel=dash.params().campaign;const P=dash.data('prod');drawTable(P,P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[]);}));
+const redrawTable=()=>{const sel=dash.params().campaign;const P=dash.data('prod');drawTable(P,P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[]);};
+$('#f-cat').addEventListener('change',(e)=>{catF=e.target.value;redrawTable();});
+document.querySelectorAll('.fs-chip-btn').forEach((b)=>b.addEventListener('click',()=>{statF=b.dataset.f;redrawTable();}));
 $('.fs-search').addEventListener('input',(e)=>{query=e.target.value;const sel=dash.params().campaign;const P=dash.data('prod');drawTable(P,P.status==='ok'?P.data.filter((r)=>r.campaign===sel):[]);});
 
 const dlg=$('#dm-dialog');
