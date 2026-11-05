@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=ed4753a6').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=398182d0').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -217,7 +217,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   <header class="fs-head" id="top">
     <h1>7-11 快閃購營業額看板</h1>
     <p class="fs-take dash-skeleton" id="takeaway"></p>
-    <p class="fs-pubnote">資料更新：2026-10-16</p>
+    <p class="fs-pubnote">資料更新：2026-11-05</p>
   </header>
 
   <section class="fs-card" id="gantt">
@@ -250,7 +250,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     </div>
     <div class="fs-camp-mid">
       <div class="fs-kpis" id="kpis">
-        <div class="fs-kpi"><div class="l">總營業額</div><div class="v dash-skeleton" data-k="revenue" data-source="summary" data-field="revenue">—</div><div class="s">含稅</div></div>
+        <div class="fs-kpi"><div class="l">總營業額</div><div class="v dash-skeleton" data-k="revenue" data-source="summary" data-field="revenue">—</div><div class="s" id="ks-rev">含稅</div></div>
         <div class="fs-kpi"><div class="l">售出率</div><div class="v dash-skeleton" data-k="sellthru" data-source="summary" data-field="sellthru">—</div><div class="s" id="ks-sell">未售出 <span data-k="unsold" data-source="summary" data-field="unsold">—</span> 件</div><div class="s" id="ks-sell-no" hidden>這份資料沒有下單量</div></div>
         <div class="fs-kpi"><div class="l">累計銷售數</div><div class="v dash-skeleton" data-k="sold" data-source="summary" data-field="sold">—</div><div class="s" id="ks-ord">下單量 <span data-k="ordered" data-source="summary" data-field="ordered">—</span> 件</div></div>
         <div class="fs-kpi"><div class="l">日均營業額</div><div class="v dash-skeleton" data-k="perday" data-source="summary" data-field="perday">—</div><div class="s">共 <span data-k="sku" data-source="summary" data-field="sku">—</span> 項商品<span id="ks-perday-n"></span></div></div>
@@ -596,7 +596,7 @@ function draw(){
     const ps=P.data.filter((r)=>r.campaign===sel).sort((a,b)=>b.revenue-a.revenue);
     const top=ps[0];
     const mk=(src,field,where,text)=>{const s=el('b',null,text);s.dataset.source=src;s.dataset.field=field;s.dataset.where=where;return s;};
-    tk.append(`${camp.name} ${sum.asofDays?'開賣前 '+sum.asofDays+' 天':sum.days?sum.days+' 天':''}營業額 `,mk('summary','revenue','campaign='+enc(sel),money(sum.revenue)),
+    tk.append(`${camp.name} ${sum.asofDays?'開賣首 '+sum.asofDays+' 天':sum.days?sum.days+' 天':''}營業額 `,mk('summary','revenue','campaign='+enc(sel),money(sum.revenue)),
       ...(sum.sellthru!=null?['，售出率 ',mk('summary','sellthru','campaign='+enc(sel),pct(sum.sellthru))]:[]),
       `；營收第一是${top.product}，佔 `,mk('prod','revShare','campaign='+enc(sel)+'&product='+enc(top.product),fPct(top.revShare)),'。');
   }else if(sum&&sum.sku===0&&camp){tk.textContent=`${camp.name}尚無銷售資料。`;}
@@ -610,6 +610,7 @@ function draw(){
     setMark(n,'campaign='+enc(sel),t);
   });
   const noOrd=!!(sum&&sum.sku>0&&sum.ordered==null);
+  $('#ks-rev').textContent=camp&&camp.revenue_basis==='retail'?'以加價購售價計（其他檔為成本價含稅）':'含稅';
   $('#ks-sell').hidden=noOrd;$('#ks-sell-no').hidden=!noOrd;$('#ks-ord').hidden=noOrd;
   $('#ks-perday-n').textContent=sum&&sum.asofDays?`・以 ${sum.asofDays} 天計`:'';
 
