@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=8a7fad57').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=957afb17').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -239,7 +239,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   <header class="fs-head" id="top">
     <h1>7-11 快閃購營業額看板</h1>
     <p class="fs-take dash-skeleton" id="takeaway"></p>
-    <p class="fs-pubnote">資料更新：2026-11-05</p>
+    <p class="fs-pubnote">資料更新：2026-11-09</p>
   </header>
 
   <section class="fs-card" id="gantt">
