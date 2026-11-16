@@ -3,9 +3,8 @@
 這個 repo 是「7-11 精品快閃購營業額看板」的公開網頁版：
 https://zoe8788.github.io/711-flash-sales/
 
-同一份看板在 Claude 裡也有一份（Dashboard 型 Artifact）：
-https://claude.ai/artifact/5SLFxUE2RuQL64DWFSZZkh
-兩邊要一起更新。
+使用者決定（2026-11-16）：**之後只更新這個 GitHub 網址**。
+Claude 裡另有一份舊的 Dashboard Artifact（https://claude.ai/artifact/5SLFxUE2RuQL64DWFSZZkh），已停止同步，停在 11/8 的資料，不用再更新。
 
 ## 檔案
 
@@ -22,7 +21,7 @@ https://claude.ai/artifact/5SLFxUE2RuQL64DWFSZZkh
 
 1. 改 `_source/data/` 裡的 JSON（或 `page.html`）。
 2. 在 repo 根目錄跑 `python3 _source/build.py`，再 commit、push 到 main。GitHub Pages 約 1 分鐘生效。
-3. Claude 那份 Artifact：把同樣的 JSON 用 `upload_asset` 上傳，更新 `datasets/<id>` 的 `source.url`；
+3. （已停用）Claude 那份 Artifact：把同樣的 JSON 用 `upload_asset` 上傳，更新 `datasets/<id>` 的 `source.url`；
    頁面改動則寫進 `files/index.html`。dataset id 對應：
    `campaigns`、`products`、`prodimg`、`dmimg`。
 
