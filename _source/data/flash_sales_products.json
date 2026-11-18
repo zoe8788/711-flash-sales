@@ -2666,7 +2666,11 @@
 "added": false,
 "retail_revenue": 74850,
 "retail_price": 499,
-"stock_in": 250
+"stock_in": 250,
+"weekly_cum": {
+"2026-11-08": 115,
+"2026-11-15": 150
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2679,7 +2683,11 @@
 "added": false,
 "retail_revenue": 99800,
 "retail_price": 499,
-"stock_in": 250
+"stock_in": 250,
+"weekly_cum": {
+"2026-11-08": 163,
+"2026-11-15": 200
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2692,7 +2700,11 @@
 "added": false,
 "retail_revenue": 407490,
 "retail_price": 799,
-"stock_in": 504
+"stock_in": 504,
+"weekly_cum": {
+"2026-11-08": 396,
+"2026-11-15": 510
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2705,7 +2717,11 @@
 "added": false,
 "retail_revenue": 197904,
 "retail_price": 399,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 368,
+"2026-11-15": 496
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2718,7 +2734,11 @@
 "added": false,
 "retail_revenue": 235011,
 "retail_price": 399,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 444,
+"2026-11-15": 589
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2731,7 +2751,11 @@
 "added": false,
 "retail_revenue": 211030,
 "retail_price": 449,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 342,
+"2026-11-15": 470
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2744,7 +2768,11 @@
 "added": false,
 "retail_revenue": 211928,
 "retail_price": 449,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 345,
+"2026-11-15": 472
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2757,7 +2785,11 @@
 "added": false,
 "retail_revenue": 118275,
 "retail_price": 249,
-"stock_in": 800
+"stock_in": 800,
+"weekly_cum": {
+"2026-11-08": 384,
+"2026-11-15": 475
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2770,7 +2802,11 @@
 "added": false,
 "retail_revenue": 118524,
 "retail_price": 249,
-"stock_in": 800
+"stock_in": 800,
+"weekly_cum": {
+"2026-11-08": 368,
+"2026-11-15": 476
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2783,7 +2819,11 @@
 "added": false,
 "retail_revenue": 51143,
 "retail_price": 199,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 213,
+"2026-11-15": 257
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2796,7 +2836,11 @@
 "added": false,
 "retail_revenue": 72237,
 "retail_price": 199,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 307,
+"2026-11-15": 363
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2809,7 +2853,11 @@
 "added": false,
 "retail_revenue": 70645,
 "retail_price": 199,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 297,
+"2026-11-15": 355
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2822,7 +2870,11 @@
 "added": false,
 "retail_revenue": 58506,
 "retail_price": 199,
-"stock_in": 400
+"stock_in": 400,
+"weekly_cum": {
+"2026-11-08": 245,
+"2026-11-15": 294
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2835,7 +2887,11 @@
 "added": false,
 "retail_revenue": 199805,
 "retail_price": 449,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 332,
+"2026-11-15": 445
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2848,7 +2904,11 @@
 "added": false,
 "retail_revenue": 91147,
 "retail_price": 449,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 159,
+"2026-11-15": 203
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2861,7 +2921,11 @@
 "added": false,
 "retail_revenue": 65105,
 "retail_price": 449,
-"stock_in": 240
+"stock_in": 240,
+"weekly_cum": {
+"2026-11-08": 105,
+"2026-11-15": 145
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2874,7 +2938,11 @@
 "added": false,
 "retail_revenue": 62860,
 "retail_price": 449,
-"stock_in": 240
+"stock_in": 240,
+"weekly_cum": {
+"2026-11-08": 103,
+"2026-11-15": 140
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2887,7 +2955,11 @@
 "added": false,
 "retail_revenue": 50148,
 "retail_price": 199,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 188,
+"2026-11-15": 252
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2900,7 +2972,11 @@
 "added": false,
 "retail_revenue": 47760,
 "retail_price": 199,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 195,
+"2026-11-15": 240
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2913,7 +2989,11 @@
 "added": false,
 "retail_revenue": 177508,
 "retail_price": 199,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 728,
+"2026-11-15": 892
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2926,7 +3006,11 @@
 "added": false,
 "retail_revenue": 72436,
 "retail_price": 199,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 278,
+"2026-11-15": 364
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2939,7 +3023,11 @@
 "added": false,
 "retail_revenue": 28137,
 "retail_price": 249,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 86,
+"2026-11-15": 113
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2952,7 +3040,11 @@
 "added": false,
 "retail_revenue": 57768,
 "retail_price": 249,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 182,
+"2026-11-15": 232
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2965,7 +3057,11 @@
 "added": false,
 "retail_revenue": 191836,
 "retail_price": 199,
-"stock_in": 1000
+"stock_in": 1000,
+"weekly_cum": {
+"2026-11-08": 745,
+"2026-11-15": 964
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2978,7 +3074,11 @@
 "added": false,
 "retail_revenue": 276809,
 "retail_price": 199,
-"stock_in": 1000
+"stock_in": 1000,
+"weekly_cum": {
+"2026-11-08": 1114,
+"2026-11-15": 1391
+}
 },
 {
 "campaign": "miffy-2611",
@@ -2991,7 +3091,11 @@
 "added": false,
 "retail_revenue": 195418,
 "retail_price": 199,
-"stock_in": 1000
+"stock_in": 1000,
+"weekly_cum": {
+"2026-11-08": 777,
+"2026-11-15": 982
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3004,7 +3108,11 @@
 "added": false,
 "retail_revenue": 314420,
 "retail_price": 199,
-"stock_in": 1600
+"stock_in": 1600,
+"weekly_cum": {
+"2026-11-08": 1322,
+"2026-11-15": 1580
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3017,7 +3125,11 @@
 "added": false,
 "retail_revenue": 245784,
 "retail_price": 399,
-"stock_in": 500
+"stock_in": 500,
+"weekly_cum": {
+"2026-11-08": 490,
+"2026-11-15": 616
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3030,7 +3142,11 @@
 "added": false,
 "retail_revenue": 128079,
 "retail_price": 399,
-"stock_in": 500
+"stock_in": 500,
+"weekly_cum": {
+"2026-11-08": 238,
+"2026-11-15": 321
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3043,7 +3159,11 @@
 "added": false,
 "retail_revenue": 640179,
 "retail_price": 249,
-"stock_in": 1000
+"stock_in": 1000,
+"weekly_cum": {
+"2026-11-08": 2105,
+"2026-11-15": 2571
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3056,7 +3176,11 @@
 "added": false,
 "retail_revenue": 331569,
 "retail_price": 399,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 632,
+"2026-11-15": 831
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3069,7 +3193,11 @@
 "added": false,
 "retail_revenue": 124961,
 "retail_price": 899,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 108,
+"2026-11-15": 139
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3082,7 +3210,11 @@
 "added": false,
 "retail_revenue": 290836,
 "retail_price": 799,
-"stock_in": 500
+"stock_in": 500,
+"weekly_cum": {
+"2026-11-08": 261,
+"2026-11-15": 364
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3095,7 +3227,11 @@
 "added": false,
 "retail_revenue": 286042,
 "retail_price": 799,
-"stock_in": 480
+"stock_in": 480,
+"weekly_cum": {
+"2026-11-08": 271,
+"2026-11-15": 358
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3108,7 +3244,11 @@
 "added": false,
 "retail_revenue": 126242,
 "retail_price": 799,
-"stock_in": 480
+"stock_in": 480,
+"weekly_cum": {
+"2026-11-08": 125,
+"2026-11-15": 158
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3121,7 +3261,11 @@
 "added": false,
 "retail_revenue": 642381,
 "retail_price": 699,
-"stock_in": 0
+"stock_in": 0,
+"weekly_cum": {
+"2026-11-08": 715,
+"2026-11-15": 919
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3134,7 +3278,11 @@
 "added": false,
 "retail_revenue": 390741,
 "retail_price": 699,
-"stock_in": 0
+"stock_in": 0,
+"weekly_cum": {
+"2026-11-08": 438,
+"2026-11-15": 559
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3147,7 +3295,11 @@
 "added": false,
 "retail_revenue": 200613,
 "retail_price": 699,
-"stock_in": 300
+"stock_in": 300,
+"weekly_cum": {
+"2026-11-08": 231,
+"2026-11-15": 287
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3160,7 +3312,11 @@
 "added": false,
 "retail_revenue": 176709,
 "retail_price": 299,
-"stock_in": 700
+"stock_in": 700,
+"weekly_cum": {
+"2026-11-08": 487,
+"2026-11-15": 591
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3173,7 +3329,11 @@
 "added": false,
 "retail_revenue": 257439,
 "retail_price": 299,
-"stock_in": 750
+"stock_in": 750,
+"weekly_cum": {
+"2026-11-08": 680,
+"2026-11-15": 861
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3186,7 +3346,11 @@
 "added": false,
 "retail_revenue": 55521,
 "retail_price": 199,
-"stock_in": 200
+"stock_in": 200,
+"weekly_cum": {
+"2026-11-08": 214,
+"2026-11-15": 279
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3199,7 +3363,11 @@
 "added": false,
 "retail_revenue": 37846,
 "retail_price": 149,
-"stock_in": 600
+"stock_in": 600,
+"weekly_cum": {
+"2026-11-08": 207,
+"2026-11-15": 254
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3212,7 +3380,11 @@
 "added": false,
 "retail_revenue": 794250,
 "retail_price": 450,
-"stock_in": 360
+"stock_in": 360,
+"weekly_cum": {
+"2026-11-08": 1409,
+"2026-11-15": 1765
+}
 },
 {
 "campaign": "miffy-2611",
@@ -3225,6 +3397,10 @@
 "added": false,
 "retail_revenue": 709837,
 "retail_price": 2699,
-"stock_in": 48
+"stock_in": 48,
+"weekly_cum": {
+"2026-11-08": 229,
+"2026-11-15": 263
+}
 }
 ]

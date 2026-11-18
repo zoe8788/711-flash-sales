@@ -141,6 +141,29 @@
 .fs-retail li span{white-space:nowrap}
 .fs-retail li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--color-border-line);padding:2px 0}
 .fs-retail li span:first-child{color:var(--color-fg-muted)}
+.fs-wk>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px var(--cds-gap-md)}
+.fs-wk>summary::-webkit-details-marker{display:none}
+.fs-wk>summary .t{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium)}
+.fs-wk>summary .s{color:var(--color-fg-muted);font-size:var(--cds-font-size-body)}
+.fs-wk>summary .tog{margin-left:auto;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);border:1px solid var(--color-border-line);border-radius:999px;padding:2px 10px;background:var(--color-bg)}
+.fs-wk[open]>summary .tog::before{content:'收合 ▴';}
+.fs-wk[open]>summary .tog{font-size:0}
+.fs-wk[open]>summary .tog::before{font-size:var(--cds-font-size-caption)}
+.fs-wk-h{margin:var(--cds-gap-lg) 0 var(--cds-gap-sm);font-size:var(--cds-font-size-body);font-weight:var(--cds-font-weight-medium)}
+.fs-wk-tbl{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:var(--cds-font-size-body)}
+.fs-wk-tbl th{text-align:right;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);padding:6px 8px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.fs-wk-tbl th:first-child,.fs-wk-tbl td:first-child{text-align:left}
+.fs-wk-tbl td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.fs-wk-tbl td .sub{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-wk-tbl tr.fc td{color:var(--color-fg-muted);font-style:italic}
+.fs-up{color:var(--color-ok)}.fs-dn{color:var(--color-bad)}
+.fs-wk-scroll{overflow-x:auto}
+.fs-fc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:var(--cds-gap-sm)}
+.fs-fc>div{background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-sm) var(--cds-pad-md)}
+.fs-fc .l{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-fc .v{font-family:var(--font-anthropic-serif);font-size:calc(var(--cds-font-size-title) * 1.05);font-variant-numeric:tabular-nums}
+.fs-fc .n{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.fs-wk-note{margin:var(--cds-gap-sm) 0 0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6}
 .fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
 .fs-remarks b{font-weight:var(--cds-font-weight-medium);margin-right:6px}
 .fs-ifoot{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-body);color:var(--color-fg-muted)}
@@ -248,6 +271,13 @@
   <div id="analysis" class="fs" style="gap:var(--cds-gap-lg)">
 
     <section class="fs-card" id="retail-card" hidden><div class="fs-retail" id="retail"></div></section>
+
+    <section class="fs-card" id="weekly" hidden>
+      <details class="fs-wk" id="wk-details">
+        <summary><span class="t">每週銷售追蹤・檔期營業額預估</span><span class="s" id="wk-sum"></span><span class="tog">展開 ▾</span></summary>
+        <div id="wk-body"></div>
+      </details>
+    </section>
 
     <section class="fs-card" id="insights">
       <h2>重點觀察</h2>
@@ -617,6 +647,7 @@ function draw(){
     rt.append(hd,ul);
   }
   $('#retail-card').hidden=!rrows.length;
+  drawWeekly(camp,sel);
   const rm=$('#remarks');rm.replaceChildren();
   const rms=camp&&Array.isArray(camp.remarks)?camp.remarks:[];
   rms.forEach((t)=>{const d=el('div');d.append(el('b',null,'備註'),String(t));rm.append(d);});
@@ -905,6 +936,71 @@ $('.fs-search').addEventListener('input',(e)=>{query=e.target.value;const sel=da
 const dlg=$('#dm-dialog');
 dlg.querySelector('.fs-dlg-x').addEventListener('click',()=>dlg.close?dlg.close():dlg.removeAttribute('open'));
 dlg.addEventListener('click',(e)=>{if(e.target===dlg&&dlg.close)dlg.close();});
+function drawWeekly(camp,sel){
+  const card=$('#weekly'),body=$('#wk-body'),sm=$('#wk-sum');body.replaceChildren();sm.textContent='';
+  const RAW=dash.data('products');
+  const weeks=camp&&Array.isArray(camp.weeks)?camp.weeks.slice().sort():[];
+  const rows=RAW.status==='ok'?RAW.data.filter((p)=>p.campaign===sel&&p.weekly_cum):[];
+  if(!weeks.length||!rows.length){card.hidden=true;return;}
+  card.hidden=false;
+  const D=(s)=>parse(s), dd=(a,b)=>Math.round((D(b)-D(a))/DAY);
+  const endStr=camp.points_end||camp.end;
+  const items=rows.map((p)=>({name:p.product,unit:Number(p.revenue)/Number(p.sold),ordered:p.ordered==null?null:Number(p.ordered),added:!!p.added,cum:weeks.map((w)=>Number(p.weekly_cum[w]||0))}));
+  // weekly periods
+  const per=weeks.map((w,i)=>{const from=i?d3.utcDay.offset(D(weeks[i-1]),1):D(camp.start);const days=Math.round((D(w)-from)/DAY)+1;
+    const qty=d3.sum(items,(it)=>it.cum[i]-(i?it.cum[i-1]:0));const rev=d3.sum(items,(it)=>(it.cum[i]-(i?it.cum[i-1]:0))*it.unit);
+    const phase=camp.points_start&&from>=D(camp.points_start)?'集點':(camp.points_start&&D(w)>=D(camp.points_start)?'快閃＋集點':'快閃購');
+    return {i,from,to:D(w),days,qty,rev,phase};});
+  // forecast
+  const last=per[per.length-1],prev=per.length>1?per[per.length-2]:null;
+  const r=prev?Math.max(0,Math.min(1,(last.rev/last.days)/(prev.rev/prev.days))):null;
+  const asof=weeks[weeks.length-1];const remain=Math.max(0,dd(asof,endStr));
+  const fc={low:0,high:0,lowQ:0,highQ:0};const futWeeks=[];
+  items.forEach((it)=>{
+    const lastQ=it.cum[it.cum.length-1]-(it.cum.length>1?it.cum[it.cum.length-2]:0);
+    const rate=lastQ/last.days;const cap=it.ordered==null?Infinity:Math.max(0,it.ordered-it.cum[it.cum.length-1]);
+    let left=remain,k=0,lo=0,hi=0;
+    while(left>0){k++;const d=Math.min(7,left);left-=d;
+      const h=Math.max(0,Math.min(rate*d,cap-hi)),l=Math.max(0,Math.min(rate*d*(r==null?0.5:Math.pow(r,k)),cap-lo));hi+=h;lo+=l;
+      const fw=futWeeks[k-1]||(futWeeks[k-1]={days:d,lo:0,hi:0,loQ:0,hiQ:0});
+      fw.loQ+=l;fw.hiQ+=h;fw.lo+=l*it.unit;fw.hi+=h*it.unit;}
+    fc.lowQ+=lo;fc.highQ+=hi;fc.low+=lo*it.unit;fc.high+=hi*it.unit;});
+  const doneRev=d3.sum(items,(it)=>it.cum[it.cum.length-1]*it.unit),doneQ=d3.sum(items,(it)=>it.cum[it.cum.length-1]);
+  const ord=d3.sum(items,(it)=>it.ordered||0);
+  sm.textContent=remain>0?`至 ${md(D(asof))} 實現 ${money(doneRev)}・預估檔期結束 ${money(doneRev+fc.low)}～${money(doneRev+fc.high)}`:`檔期已結束・總營業額 ${money(doneRev)}`;
+  // 1. weekly table
+  body.append(el('h3','fs-wk-h','每週銷售（營業額以成本價含稅計）'));
+  const wrap=el('div','fs-wk-scroll'),t=el('table','fs-wk-tbl');
+  const hr=el('tr');['週次','銷量','營業額','日均營業額','比上週（日均）'].forEach((h)=>hr.append(el('th',null,h)));
+  const th=el('thead');th.append(hr);const tb=el('tbody');
+  const chg=(a,b)=>{if(b==null||!b)return el('span',null,'—');const v=a/b-1;return el('span',v>=0?'fs-up':'fs-dn',(v>=0?'+':'')+fPct(v));};
+  per.forEach((p,i)=>{const tr=el('tr');const c0=el('td');c0.append(`第 ${i+1} 週`,el('span','sub',`${md(p.from)}–${md(p.to)}・${p.days} 天・${p.phase}`));
+    const c4=el('td');c4.append(i?chg(p.rev/p.days,per[i-1].rev/per[i-1].days):el('span',null,'—'));
+    if(i){c4.append(el('span','sub',`銷量 ${chg(p.qty,per[i-1].qty).textContent}（週總量）`));}
+    tr.append(c0,el('td',null,fInt(p.qty)),el('td',null,money(p.rev)),el('td',null,money(p.rev/p.days)),c4);tb.append(tr);});
+  futWeeks.forEach((fw,k)=>{const from=d3.utcDay.offset(D(asof),k*7+1),to=d3.utcDay.offset(from,fw.days-1);const tr=el('tr','fc');
+    const c0=el('td');c0.append(`第 ${per.length+k+1} 週（預估）`,el('span','sub',`${md(from)}–${md(to)}・${fw.days} 天`));
+    tr.append(c0,el('td',null,`${fInt(fw.loQ)}～${fInt(fw.hiQ)}`),el('td',null,`${money(fw.lo)}～${money(fw.hi)}`),el('td',null,'—'),el('td',null,'—'));tb.append(tr);});
+  t.append(th,tb);wrap.append(t);body.append(wrap);
+  // 2. forecast
+  body.append(el('h3','fs-wk-h',`檔期營業額預估（至 ${md(D(endStr))} 檔期結束）`));
+  const box=el('div','fs-fc');
+  const card2=(l,v,n)=>{const d=el('div');d.append(el('div','l',l),el('div','v',v),el('div','n',n));return d;};
+  box.append(card2(`已實現（至 ${md(D(asof))}）`,money(doneRev),`${fInt(doneQ)} 件・售出率 ${ord?fPct(doneQ/ord):'—'}`),
+    card2('預估・保守',money(doneRev+fc.low),`${fInt(doneQ+fc.lowQ)} 件・售出率 ${ord?fPct((doneQ+fc.lowQ)/ord):'—'}`),
+    card2('預估・上限',money(doneRev+fc.high),`${fInt(doneQ+fc.highQ)} 件・售出率 ${ord?fPct((doneQ+fc.highQ)/ord):'—'}`));
+  body.append(box);
+  body.append(el('p','fs-wk-note',remain>0?`算法：保守＝每項商品依最近一週的日銷量，往後每週再乘上「本週÷上週」的日均衰退比例${r==null?'（只有一週資料，先以 50% 計）':`（${fPct(r)}）`}；上限＝維持最近一週的日銷量不變。兩者每項商品都不超過剩餘下單量。${camp.points_start&&D(asof)<D(camp.points_start)?`接下來進入集點期（${md(D(camp.points_start))} 起），銷售速度通常和快閃購不同，預估會隨每週新資料修正。`:'預估會隨每週新資料修正。'}`:'檔期已結束，以上為最終結果。'));
+  // 3. sell-through by added / not added
+  body.append(el('h3','fs-wk-h','售出率統計：有追加 vs 未追加'));
+  const grp=[['有追加',items.filter((it)=>it.added)],['未追加',items.filter((it)=>!it.added)]];
+  const t2=el('table','fs-wk-tbl'),h2=el('tr');['','項數','下單量','累計銷量','售出率','營業額'].forEach((h)=>h2.append(el('th',null,h)));
+  const th2=el('thead');th2.append(h2);const tb2=el('tbody');
+  grp.forEach(([n,g])=>{const tr=el('tr');const o=d3.sum(g,(it)=>it.ordered||0),q=d3.sum(g,(it)=>it.cum[it.cum.length-1]),rv=d3.sum(g,(it)=>it.cum[it.cum.length-1]*it.unit);
+    tr.append(el('td',null,n),el('td',null,String(g.length)),el('td',null,g.length?fInt(o):'—'),el('td',null,g.length?fInt(q):'—'),el('td',null,g.length&&o?fPct(q/o):'—'),el('td',null,g.length?money(rv):'—'));tb2.append(tr);});
+  t2.append(th2,tb2);const w2=el('div','fs-wk-scroll');w2.append(t2);body.append(w2);
+  if(!items.some((it)=>it.added))body.append(el('p','fs-wk-note','這一檔目前沒有標記為追加的商品；提供追加清單後會自動分開統計。'));
+}
 dash.onData(draw);
 })();
 </script>
