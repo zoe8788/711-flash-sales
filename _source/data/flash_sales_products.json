@@ -2711,68 +2711,80 @@
 "no": 4,
 "category": "餐廚用品",
 "product": "MF立體造型馬克杯",
-"ordered": 800,
+"ordered": 1000,
 "sold": 496,
 "revenue": 134887.1,
-"added": false,
+"added": true,
 "retail_revenue": 197904,
 "retail_price": 399,
 "stock_in": 400,
 "weekly_cum": {
 "2026-11-08": 368,
 "2026-11-15": 496
-}
+},
+"first_order": 800,
+"add_qty": 200,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
 "no": 5,
 "category": "餐廚用品",
 "product": "MF立體造型陶盤",
-"ordered": 395,
+"ordered": 1395,
 "sold": 589,
 "revenue": 167600.1,
-"added": false,
+"added": true,
 "retail_revenue": 235011,
 "retail_price": 399,
 "stock_in": 400,
 "weekly_cum": {
 "2026-11-08": 444,
 "2026-11-15": 589
-}
+},
+"first_order": 395,
+"add_qty": 1000,
+"add_arrival": "11/20 入倉 400、12/15 入倉 600"
 },
 {
 "campaign": "miffy-2611",
 "no": 6,
 "category": "居家生活",
 "product": "(偷看)MF絨毛地墊",
-"ordered": 295,
+"ordered": 795,
 "sold": 470,
 "revenue": 154959.0,
-"added": false,
+"added": true,
 "retail_revenue": 211030,
 "retail_price": 449,
 "stock_in": 300,
 "weekly_cum": {
 "2026-11-08": 342,
 "2026-11-15": 470
-}
+},
+"first_order": 295,
+"add_qty": 500,
+"add_arrival": "12/15"
 },
 {
 "campaign": "miffy-2611",
 "no": 7,
 "category": "居家生活",
 "product": "(波點)MF絨毛地墊",
-"ordered": 295,
+"ordered": 895,
 "sold": 472,
 "revenue": 155618.4,
-"added": false,
+"added": true,
 "retail_revenue": 211928,
 "retail_price": 449,
 "stock_in": 300,
 "weekly_cum": {
 "2026-11-08": 345,
 "2026-11-15": 472
-}
+},
+"first_order": 295,
+"add_qty": 600,
+"add_arrival": "12/15"
 },
 {
 "campaign": "miffy-2611",
@@ -2830,34 +2842,40 @@
 "no": 11,
 "category": "娛樂收藏",
 "product": "(粉)MF星星鑰匙圈",
-"ordered": 495,
+"ordered": 795,
 "sold": 363,
 "revenue": 49168.3,
-"added": false,
+"added": true,
 "retail_revenue": 72237,
 "retail_price": 199,
 "stock_in": 400,
 "weekly_cum": {
 "2026-11-08": 307,
 "2026-11-15": 363
-}
+},
+"first_order": 495,
+"add_qty": 300,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
 "no": 12,
 "category": "娛樂收藏",
 "product": "(紫)MF星星鑰匙圈",
-"ordered": 495,
+"ordered": 795,
 "sold": 355,
 "revenue": 48084.8,
-"added": false,
+"added": true,
 "retail_revenue": 70645,
 "retail_price": 199,
 "stock_in": 400,
 "weekly_cum": {
 "2026-11-08": 297,
 "2026-11-15": 355
-}
+},
+"first_order": 495,
+"add_qty": 300,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
@@ -2881,34 +2899,40 @@
 "no": 14,
 "category": "居家生活",
 "product": "(米飛3839)MF室內拖",
-"ordered": 295,
+"ordered": 895,
 "sold": 445,
 "revenue": 136437.0,
-"added": false,
+"added": true,
 "retail_revenue": 199805,
 "retail_price": 449,
 "stock_in": 300,
 "weekly_cum": {
 "2026-11-08": 332,
 "2026-11-15": 445
-}
+},
+"first_order": 295,
+"add_qty": 600,
+"add_arrival": "12/11"
 },
 {
 "campaign": "miffy-2611",
 "no": 15,
 "category": "居家生活",
 "product": "(米飛4041)MF室內拖",
-"ordered": 295,
+"ordered": 595,
 "sold": 203,
 "revenue": 62239.8,
-"added": false,
+"added": true,
 "retail_revenue": 91147,
 "retail_price": 449,
 "stock_in": 300,
 "weekly_cum": {
 "2026-11-08": 159,
 "2026-11-15": 203
-}
+},
+"first_order": 295,
+"add_qty": 300,
+"add_arrival": "12/11"
 },
 {
 "campaign": "miffy-2611",
@@ -2983,17 +3007,20 @@
 "no": 20,
 "category": "髮飾",
 "product": "(奶茶)MF髮夾2入組",
-"ordered": 795,
+"ordered": 1795,
 "sold": 892,
 "revenue": 120821.4,
-"added": false,
+"added": true,
 "retail_revenue": 177508,
 "retail_price": 199,
 "stock_in": 600,
 "weekly_cum": {
 "2026-11-08": 728,
 "2026-11-15": 892
-}
+},
+"first_order": 795,
+"add_qty": 1000,
+"add_arrival": "12/15"
 },
 {
 "campaign": "miffy-2611",
@@ -3068,17 +3095,20 @@
 "no": 25,
 "category": "娛樂收藏",
 "product": "(奶)MF針織小吊飾",
-"ordered": 1995,
+"ordered": 2995,
 "sold": 1391,
 "revenue": 188410.9,
-"added": false,
+"added": true,
 "retail_revenue": 276809,
 "retail_price": 199,
 "stock_in": 1000,
 "weekly_cum": {
 "2026-11-08": 1114,
 "2026-11-15": 1391
-}
+},
+"first_order": 1995,
+"add_qty": 1000,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
@@ -3102,17 +3132,20 @@
 "no": 27,
 "category": "女生包包/精品",
 "product": "MF萬花筒收納風琴包",
-"ordered": 1995,
+"ordered": 2995,
 "sold": 1580,
 "revenue": 214011.0,
-"added": false,
+"added": true,
 "retail_revenue": 314420,
 "retail_price": 199,
 "stock_in": 1600,
 "weekly_cum": {
 "2026-11-08": 1322,
 "2026-11-15": 1580
-}
+},
+"first_order": 1995,
+"add_qty": 1000,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
@@ -3153,17 +3186,20 @@
 "no": 30,
 "category": "女生包包/精品",
 "product": "MF兩用飲料杯袋",
-"ordered": 1995,
+"ordered": 2995,
 "sold": 2571,
 "revenue": 437327.1,
-"added": false,
+"added": true,
 "retail_revenue": 640179,
 "retail_price": 249,
 "stock_in": 1000,
 "weekly_cum": {
 "2026-11-08": 2105,
 "2026-11-15": 2571
-}
+},
+"first_order": 1995,
+"add_qty": 1000,
+"add_arrival": "11/10"
 },
 {
 "campaign": "miffy-2611",
@@ -3255,17 +3291,20 @@
 "no": 36,
 "category": "居家生活",
 "product": "米飛捲毛大頭抱枕",
-"ordered": 795,
+"ordered": 2695,
 "sold": 919,
 "revenue": 438087.3,
-"added": false,
+"added": true,
 "retail_revenue": 642381,
 "retail_price": 699,
 "stock_in": 0,
 "weekly_cum": {
 "2026-11-08": 715,
 "2026-11-15": 919
-}
+},
+"first_order": 795,
+"add_qty": 1900,
+"add_arrival": "11/10 入倉 200、12/15 入倉 1700"
 },
 {
 "campaign": "miffy-2611",
@@ -3340,17 +3379,20 @@
 "no": 41,
 "category": "髮飾",
 "product": "(格紋)MF長抓夾",
-"ordered": 195,
+"ordered": 1195,
 "sold": 279,
 "revenue": 37790.7,
-"added": false,
+"added": true,
 "retail_revenue": 55521,
 "retail_price": 199,
 "stock_in": 200,
 "weekly_cum": {
 "2026-11-08": 214,
 "2026-11-15": 279
-}
+},
+"first_order": 195,
+"add_qty": 1000,
+"add_arrival": "12/15"
 },
 {
 "campaign": "miffy-2611",
@@ -3391,16 +3433,19 @@
 "no": 44,
 "category": "娛樂收藏",
 "product": "(套組)歡樂聖誕盲盒",
-"ordered": 495,
+"ordered": 747,
 "sold": 263,
 "revenue": 503697.6,
-"added": false,
+"added": true,
 "retail_revenue": 709837,
 "retail_price": 2699,
 "stock_in": 48,
 "weekly_cum": {
 "2026-11-08": 229,
 "2026-11-15": 263
-}
+},
+"first_order": 495,
+"add_qty": 252,
+"add_arrival": "11/20"
 }
 ]

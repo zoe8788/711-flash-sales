@@ -164,6 +164,7 @@
 .fs-fc .v{font-family:var(--font-anthropic-serif);font-size:calc(var(--cds-font-size-title) * 1.05);font-variant-numeric:tabular-nums}
 .fs-fc .n{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .fs-wk-note{margin:var(--cds-gap-sm) 0 0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6}
+.fs-ord-sub{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);white-space:nowrap}
 .fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
 .fs-remarks b{font-weight:var(--cds-font-weight-medium);margin-right:6px}
 .fs-ifoot{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-body);color:var(--color-fg-muted)}
@@ -404,7 +405,7 @@ dash.calc('prod',{inputs:['products'],title:'商品銷售指標',
       ordered:p.ordered==null||p.ordered===''?null:Number(p.ordered),sold:Number(p.sold),
       unsold:p.ordered==null||p.ordered===''?null:Number(p.ordered)-Number(p.sold),revenue:Number(p.revenue),
       sellthru:p.ordered==null||p.ordered===''||!Number(p.ordered)?null:Number(p.sold)/Number(p.ordered),revShare:Number(p.revenue)/tot[p.campaign],added:p.added===true||p.added==='true',retail:p.retail_revenue==null?null:Number(p.retail_revenue),
-      first:p.first_order==null?null:Number(p.first_order),shipped:p.shipped==null?null:Number(p.shipped),
+      first:p.first_order==null?null:Number(p.first_order),addQty:p.add_qty==null?null:Number(p.add_qty),arrival:p.add_arrival||null,shipped:p.shipped==null?null:Number(p.shipped),
       shipSell:p.shipped?Number(p.sold)/Number(p.shipped):null}));
   }});
 
@@ -915,6 +916,7 @@ function drawTable(P,rows){
     const ordCell=el('td','num hide-n');
     if(r.added)ordCell.append(el('span','fs-tag','追加'),' ');
     ordCell.append(num(r.ordered));
+    if(r.added&&r.first!=null&&r.addQty!=null){const sb=el('span','fs-ord-sub',`首批 ${fInt(r.first)}＋追加 ${fInt(r.addQty)}`+(r.arrival?`・入倉 ${r.arrival}`:''));ordCell.append(sb);}
     tr.append(el('td',null,r.product),el('td','hide-n',r.category),ordCell,
       el('td','num',fInt(r.sold)),stCell,el('td','num',money(r.revenue)),el('td','num hide-n',fPct(r.revShare)));
     tb.append(tr);
