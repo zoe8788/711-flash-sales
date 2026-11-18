@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=bb22ccb9').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=548e4974').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -201,6 +201,9 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-fc .v{font-family:var(--font-anthropic-serif);font-size:calc(var(--cds-font-size-title) * 1.05);font-variant-numeric:tabular-nums}
 .fs-fc .n{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);font-variant-numeric:tabular-nums}
 .fs-wk-note{margin:var(--cds-gap-sm) 0 0;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);line-height:1.6}
+.fs-pend{color:var(--color-warn);font-weight:var(--cds-font-weight-medium)}
+.fs-pend0{color:var(--color-fg-muted)}
+#detail.no-stock .fs-col-pend{display:none}
 .fs-ord-sub{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);white-space:nowrap}
 .fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
 .fs-remarks b{font-weight:var(--cds-font-weight-medium);margin-right:6px}
@@ -348,7 +351,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
     <section class="fs-card" id="detail">
       <div class="fs-tbar">
-        <div><h2>商品銷售明細</h2><p class="fs-note" style="margin-bottom:0">點任一欄位標題可排序，再點一次反向。<span class="fs-key"><i style="background:color-mix(in srgb, var(--color-ok) 35%, transparent)"></i>售出率 60% 以上</span><span class="fs-key"><i style="background:color-mix(in srgb, var(--color-bad) 35%, transparent)"></i>售出率 20% 以下</span><span class="fs-key"><span class="fs-tag">追加</span>有追加下單</span></p></div>
+        <div><h2>商品銷售明細</h2><p class="fs-note" style="margin-bottom:0">點任一欄位標題可排序，再點一次反向。<span class="fs-key"><i style="background:color-mix(in srgb, var(--color-ok) 35%, transparent)"></i>售出率 60% 以上</span><span class="fs-key"><i style="background:color-mix(in srgb, var(--color-bad) 35%, transparent)"></i>售出率 20% 以下</span><span class="fs-key"><span class="fs-tag">追加</span>有追加下單</span><span class="fs-key fs-col-pend">待補貨＝累計銷量 − 已入倉（7-11 倉）</span></p></div>
         <input class="fs-search" type="search" placeholder="搜尋商品或分類" aria-label="搜尋商品">
       </div>
       <div class="fs-filters" id="tfilters">
@@ -368,6 +371,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
             <th data-field="category" class="hide-n"><button data-sort="category">分類</button></th>
             <th data-field="ordered" class="num hide-n"><button data-sort="ordered">下單量</button></th>
             <th data-field="sold" class="num"><button data-sort="sold">累計銷售</button></th>
+            <th data-field="pending" class="num fs-col-pend"><button data-sort="pending">待補貨</button></th>
             <th data-field="sellthru" class="num"><button data-sort="sellthru">售出率</button></th>
             <th data-field="revenue" class="num"><button data-sort="revenue">營業額</button></th>
             <th data-field="revShare" class="num hide-n"><button data-sort="revShare">營業額佔比</button></th>
@@ -443,7 +447,7 @@ dash.calc('prod',{inputs:['products'],title:'商品銷售指標',
       ordered:p.ordered==null||p.ordered===''?null:Number(p.ordered),sold:Number(p.sold),
       unsold:p.ordered==null||p.ordered===''?null:Number(p.ordered)-Number(p.sold),revenue:Number(p.revenue),
       sellthru:p.ordered==null||p.ordered===''||!Number(p.ordered)?null:Number(p.sold)/Number(p.ordered),revShare:Number(p.revenue)/tot[p.campaign],added:p.added===true||p.added==='true',retail:p.retail_revenue==null?null:Number(p.retail_revenue),
-      first:p.first_order==null?null:Number(p.first_order),addQty:p.add_qty==null?null:Number(p.add_qty),arrival:p.add_arrival||null,shipped:p.shipped==null?null:Number(p.shipped),
+      first:p.first_order==null?null:Number(p.first_order),stockIn:p.stock_in==null?null:Number(p.stock_in),pending:p.stock_in==null?null:Math.max(0,Number(p.sold)-Number(p.stock_in)),addQty:p.add_qty==null?null:Number(p.add_qty),arrival:p.add_arrival||null,shipped:p.shipped==null?null:Number(p.shipped),
       shipSell:p.shipped?Number(p.sold)/Number(p.shipped):null}));
   }});
 
@@ -932,7 +936,8 @@ function drawScatter(P,rows,sum){
 
 function drawTable(P,rows){
   const tb=$('#detail tbody');tb.replaceChildren();
-  if(P.status!=='ok'){if(bad(P)){const tr=el('tr');const td=el('td');td.colSpan=8;failBox(td);tr.append(td);tb.append(tr);}return;}
+  $('#detail').classList.toggle('no-stock',!rows.some((r)=>r.stockIn!=null));
+  if(P.status!=='ok'){if(bad(P)){const tr=el('tr');const td=el('td');td.colSpan=9;failBox(td);tr.append(td);tb.append(tr);}return;}
   const qq=query.trim().toLowerCase();
   // category options follow the campaign; keep the choice if it still exists
   const fc=$('#f-cat');const cats0=[...new Set(rows.map((r)=>r.category))];
@@ -955,12 +960,15 @@ function drawTable(P,rows){
     if(r.added)ordCell.append(el('span','fs-tag','追加'),' ');
     ordCell.append(num(r.ordered));
     if(r.added&&r.first!=null&&r.addQty!=null){const sb=el('span','fs-ord-sub',`首批 ${fInt(r.first)}＋追加 ${fInt(r.addQty)}`+(r.arrival?`・入倉 ${r.arrival}`:''));ordCell.append(sb);}
+    const pendCell=el('td','num fs-col-pend');
+    if(r.pending==null)pendCell.textContent='—';
+    else{pendCell.append(el('span',r.pending>0?'fs-pend':'fs-pend0',r.pending>0?fInt(r.pending):'0'),el('span','fs-ord-sub',`已入倉 ${fInt(r.stockIn)}`));}
     tr.append(el('td',null,r.product),el('td','hide-n',r.category),ordCell,
-      el('td','num',fInt(r.sold)),stCell,el('td','num',money(r.revenue)),el('td','num hide-n',fPct(r.revShare)));
+      el('td','num',fInt(r.sold)),pendCell,stCell,el('td','num',money(r.revenue)),el('td','num hide-n',fPct(r.revShare)));
     tb.append(tr);
   });
   $('#f-count').textContent=list.length===rows.length?`共 ${rows.length} 項`:`顯示 ${list.length}／${rows.length} 項`;
-  if(!list.length){const tr=el('tr');const td=el('td',null,'沒有符合條件的商品');td.colSpan=7;td.style.textAlign='center';td.style.color='var(--color-fg-muted)';tr.append(td);tb.append(tr);}
+  if(!list.length){const tr=el('tr');const td=el('td',null,'沒有符合條件的商品');td.colSpan=8;td.style.textAlign='center';td.style.color='var(--color-fg-muted)';tr.append(td);tb.append(tr);}
   document.querySelectorAll('#detail th').forEach((th)=>{const f=th.dataset.field;th.setAttribute('aria-sort',f===sortKey?(sortDir>0?'ascending':'descending'):'none');
     const b=th.querySelector('button');if(!b.dataset.label)b.dataset.label=b.textContent.replace(/[ ▲▼⇅]+$/,'');
     b.replaceChildren(b.dataset.label,el('span','si',f===sortKey?(sortDir>0?'▲':'▼'):'⇅'));});

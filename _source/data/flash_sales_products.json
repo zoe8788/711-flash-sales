@@ -2737,7 +2737,7 @@
 "added": true,
 "retail_revenue": 235011,
 "retail_price": 399,
-"stock_in": 400,
+"stock_in": 476,
 "weekly_cum": {
 "2026-11-08": 444,
 "2026-11-15": 589
@@ -2848,7 +2848,7 @@
 "added": true,
 "retail_revenue": 72237,
 "retail_price": 199,
-"stock_in": 400,
+"stock_in": 800,
 "weekly_cum": {
 "2026-11-08": 307,
 "2026-11-15": 363
@@ -2868,7 +2868,7 @@
 "added": true,
 "retail_revenue": 70645,
 "retail_price": 199,
-"stock_in": 400,
+"stock_in": 800,
 "weekly_cum": {
 "2026-11-08": 297,
 "2026-11-15": 355
@@ -3013,7 +3013,7 @@
 "added": true,
 "retail_revenue": 177508,
 "retail_price": 199,
-"stock_in": 600,
+"stock_in": 800,
 "weekly_cum": {
 "2026-11-08": 728,
 "2026-11-15": 892
@@ -3084,7 +3084,7 @@
 "added": false,
 "retail_revenue": 191836,
 "retail_price": 199,
-"stock_in": 1000,
+"stock_in": 1500,
 "weekly_cum": {
 "2026-11-08": 745,
 "2026-11-15": 964
@@ -3101,7 +3101,7 @@
 "added": true,
 "retail_revenue": 276809,
 "retail_price": 199,
-"stock_in": 1000,
+"stock_in": 2000,
 "weekly_cum": {
 "2026-11-08": 1114,
 "2026-11-15": 1391
@@ -3121,7 +3121,7 @@
 "added": false,
 "retail_revenue": 195418,
 "retail_price": 199,
-"stock_in": 1000,
+"stock_in": 1500,
 "weekly_cum": {
 "2026-11-08": 777,
 "2026-11-15": 982
@@ -3158,7 +3158,7 @@
 "added": false,
 "retail_revenue": 245784,
 "retail_price": 399,
-"stock_in": 500,
+"stock_in": 1000,
 "weekly_cum": {
 "2026-11-08": 490,
 "2026-11-15": 616
@@ -3192,7 +3192,7 @@
 "added": true,
 "retail_revenue": 640179,
 "retail_price": 249,
-"stock_in": 1000,
+"stock_in": 3000,
 "weekly_cum": {
 "2026-11-08": 2105,
 "2026-11-15": 2571
@@ -3212,7 +3212,7 @@
 "added": false,
 "retail_revenue": 331569,
 "retail_price": 399,
-"stock_in": 600,
+"stock_in": 1000,
 "weekly_cum": {
 "2026-11-08": 632,
 "2026-11-15": 831
@@ -3297,7 +3297,7 @@
 "added": true,
 "retail_revenue": 642381,
 "retail_price": 699,
-"stock_in": 0,
+"stock_in": 800,
 "weekly_cum": {
 "2026-11-08": 715,
 "2026-11-15": 919
@@ -3317,7 +3317,7 @@
 "added": false,
 "retail_revenue": 390741,
 "retail_price": 699,
-"stock_in": 0,
+"stock_in": 800,
 "weekly_cum": {
 "2026-11-08": 438,
 "2026-11-15": 559
@@ -3422,7 +3422,7 @@
 "added": false,
 "retail_revenue": 794250,
 "retail_price": 450,
-"stock_in": 360,
+"stock_in": 3000,
 "weekly_cum": {
 "2026-11-08": 1409,
 "2026-11-15": 1765
@@ -3439,7 +3439,7 @@
 "added": true,
 "retail_revenue": 709837,
 "retail_price": 2699,
-"stock_in": 48,
+"stock_in": 744,
 "weekly_cum": {
 "2026-11-08": 229,
 "2026-11-15": 263

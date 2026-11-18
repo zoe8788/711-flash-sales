@@ -42,3 +42,9 @@ Claude 裡另有一份舊的 Dashboard Artifact（https://claude.ai/artifact/5SL
 - 每項商品設 `weekly_cum`：{截止日: 累計銷量}。每週新資料就加一個日期進去，`sold` 同步改成最新累計。
 - 頁面會自動算每週銷量／營業額（成本價含稅）、比上週（用日均比，因為週天數不同）、檔期營業額預估（保守＝依週衰退、上限＝維持最近一週速度，皆不超過剩餘下單量），以及有追加 vs 未追加的售出率。
 - 目前只有 2026 米飛暖心選物特輯（miffy-2611）有每週資料。
+
+## 入倉量（待補貨）
+
+- 使用者會在這份 Google 試算表更新確定的入倉量：https://docs.google.com/spreadsheets/d/1Ov18OhVqxrKlZhrOWgc6DF-1gYoG4wvT-vA6jou86Dg/edit?gid=0#gid=0
+- 用「入倉數量」分頁的「已出貨」欄，寫進商品的 `stock_in`；檔期設 `stock_asof`。
+- 待補貨＝累計銷量 − 已入倉（只顯示正數）。沒有 stock_in 的檔期，表格自動隱藏這一欄。
