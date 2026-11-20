@@ -266,7 +266,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   <header class="fs-head" id="top">
     <h1>7-11 快閃購營業額看板</h1>
     <p class="fs-take dash-skeleton" id="takeaway"></p>
-    <p class="fs-pubnote">資料更新：2026-11-18</p>
+    <p class="fs-pubnote">資料更新：2026-11-20</p>
   </header>
 
   <section class="fs-card" id="gantt">
@@ -993,7 +993,7 @@ function drawWeekly(camp,sel){
   card.hidden=false;
   const D=(s)=>parse(s), dd=(a,b)=>Math.round((D(b)-D(a))/DAY);
   const endStr=camp.points_end||camp.end;
-  const items=rows.map((p)=>({name:p.product,unit:Number(p.revenue)/Number(p.sold),ordered:p.ordered==null?null:Number(p.ordered),added:!!p.added,cum:weeks.map((w)=>Number(p.weekly_cum[w]||0))}));
+  const items=rows.map((p)=>({name:p.product,unit:Number(p.revenue)/Number(p.sold),ordered:p.ordered==null?null:Number(p.ordered),added:!!p.added,first:p.first_order==null?(p.ordered==null?null:Number(p.ordered)):Number(p.first_order),addQ:p.add_qty==null?0:Number(p.add_qty),cum:weeks.map((w)=>Number(p.weekly_cum[w]||0))}));
   // weekly periods
   const per=weeks.map((w,i)=>{const from=i?d3.utcDay.offset(D(weeks[i-1]),1):D(camp.start);const days=Math.round((D(w)-from)/DAY)+1;
     const qty=d3.sum(items,(it)=>it.cum[i]-(i?it.cum[i-1]:0));const rev=d3.sum(items,(it)=>(it.cum[i]-(i?it.cum[i-1]:0))*it.unit);
@@ -1042,11 +1042,14 @@ function drawWeekly(camp,sel){
   // 3. sell-through by added / not added
   body.append(el('h3','fs-wk-h','售出率統計：有追加 vs 未追加'));
   const grp=[['有追加',items.filter((it)=>it.added)],['未追加',items.filter((it)=>!it.added)]];
-  const t2=el('table','fs-wk-tbl'),h2=el('tr');['','項數','下單量','累計銷量','售出率','營業額'].forEach((h)=>h2.append(el('th',null,h)));
+  const t2=el('table','fs-wk-tbl'),h2=el('tr');['','項數','首批','追加','累計銷量','對首批售出率','總售出率（含追加）','營業額'].forEach((h)=>h2.append(el('th',null,h)));
   const th2=el('thead');th2.append(h2);const tb2=el('tbody');
-  grp.forEach(([n,g])=>{const tr=el('tr');const o=d3.sum(g,(it)=>it.ordered||0),q=d3.sum(g,(it)=>it.cum[it.cum.length-1]),rv=d3.sum(g,(it)=>it.cum[it.cum.length-1]*it.unit);
-    tr.append(el('td',null,n),el('td',null,String(g.length)),el('td',null,g.length?fInt(o):'—'),el('td',null,g.length?fInt(q):'—'),el('td',null,g.length&&o?fPct(q/o):'—'),el('td',null,g.length?money(rv):'—'));tb2.append(tr);});
+  grp.forEach(([n,g])=>{const tr=el('tr');const f1=d3.sum(g,(it)=>it.first||0),aq=d3.sum(g,(it)=>it.addQ),o=d3.sum(g,(it)=>it.ordered||0),q=d3.sum(g,(it)=>it.cum[it.cum.length-1]),rv=d3.sum(g,(it)=>it.cum[it.cum.length-1]*it.unit);
+    const has=g.length>0;
+    tr.append(el('td',null,n),el('td',null,String(g.length)),el('td',null,has?fInt(f1):'—'),el('td',null,has&&aq?fInt(aq):'—'),el('td',null,has?fInt(q):'—'),
+      el('td',null,has&&f1?fPct(q/f1):'—'),el('td',null,has&&o?fPct(q/o):'—'),el('td',null,has?money(rv):'—'));tb2.append(tr);});
   t2.append(th2,tb2);const w2=el('div','fs-wk-scroll');w2.append(t2);body.append(w2);
+  body.append(el('p','fs-wk-note','對首批售出率＝累計銷量 ÷ 首批訂量，看首批是否賣完、追加是否合理；總售出率＝累計銷量 ÷（首批＋追加），看追加後的量能否消化。未追加商品兩者相同。'));
   if(!items.some((it)=>it.added))body.append(el('p','fs-wk-note','這一檔目前沒有標記為追加的商品；提供追加清單後會自動分開統計。'));
 }
 dash.onData(draw);
