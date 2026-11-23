@@ -48,3 +48,9 @@ Claude 裡另有一份舊的 Dashboard Artifact（https://claude.ai/artifact/5SL
 - 使用者會在這份 Google 試算表更新確定的入倉量：https://docs.google.com/spreadsheets/d/1Ov18OhVqxrKlZhrOWgc6DF-1gYoG4wvT-vA6jou86Dg/edit?gid=0#gid=0
 - 用「入倉數量」分頁的「已出貨」欄，寫進商品的 `stock_in`；檔期設 `stock_asof`。
 - 待補貨＝累計銷量 − 已入倉（只顯示正數）。沒有 stock_in 的檔期，表格自動隱藏這一欄。
+
+## 到貨進度（2026-11-23 起，目前只有 PINGU）
+
+- 檔期設 `arrivals`：[{no, product, dm_price, qty, date}]，`arrivals_asof` 為更新日，`arrivals_note` 為補充說明。
+- 頁面在檔期卡片下方顯示「到貨進度」表；有 `date` 即算已到貨。資料來源是使用者給的到貨表（xlsx），不從 ERP 抓。
+- 萌蛙匹克延期，id 改為 `frog-2702`，2027/2/17 開始，結束日未定（`end` 留空）。
