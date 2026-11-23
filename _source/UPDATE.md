@@ -51,6 +51,6 @@ Claude 裡另有一份舊的 Dashboard Artifact（https://claude.ai/artifact/5SL
 
 ## 到貨進度（2026-11-23 起，目前只有 PINGU）
 
-- 檔期設 `arrivals`：[{no, product, dm_price, qty, date}]，`arrivals_asof` 為更新日，`arrivals_note` 為補充說明。
+- 檔期設 `arrivals`：[{no, product, dm_price, qty, date, state, eta, eta_note}]（eta＝預計到貨日，來自商品會議記錄；`eta_asof` 為時程表日期；eta 在開賣日當天或之後會標「晚於開賣」），`arrivals_asof` 為更新日，`arrivals_note` 為補充說明。
 - 頁面在檔期卡片下方顯示「到貨進度」表；有 `date` 即算已到貨。資料來源是使用者給的到貨表（xlsx），不從 ERP 抓。
 - 萌蛙匹克延期，id 改為 `frog-2702`，2027/2/17 開始，結束日未定（`end` 留空）。

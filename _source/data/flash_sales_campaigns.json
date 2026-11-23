@@ -150,212 +150,287 @@
 "product": "旅行收納袋三件組",
 "dm_price": "399",
 "qty": null,
-"date": null
+"date": null,
+"state": "待出貨",
+"eta": "2026-12-10",
+"eta_note": "11/30 出貨，海快"
 },
 {
 "no": 2,
 "product": "收納風琴包",
 "dm_price": "199",
 "qty": null,
-"date": null
+"date": null,
+"state": "待出貨",
+"eta": "2026-12-02",
+"eta_note": "11/22 出貨，海快"
 },
 {
 "no": 3,
 "product": "兩用雙杯飲料袋",
 "dm_price": "249",
 "qty": null,
-"date": null
+"date": null,
+"state": "待出貨",
+"eta": "2026-12-03",
+"eta_note": "11/23 出貨，海快"
 },
 {
 "no": 4,
 "product": "印花T恤 視力檢查表",
 "dm_price": "699",
 "qty": 250,
-"date": "11/9 到 125、11/10 到 125"
+"date": "11/9 到 125、11/10 到 125",
+"state": "已到貨"
 },
 {
 "no": 5,
 "product": "印花T恤 復古水洗Logo",
 "dm_price": "699",
 "qty": 250,
-"date": "11/9"
+"date": "11/9",
+"state": "已到貨"
 },
 {
 "no": 6,
 "product": "條紋刺繡翻轉包",
 "dm_price": "499",
 "qty": null,
-"date": null
+"date": null,
+"state": "已出貨",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 7,
 "product": "牛仔肩背包",
 "dm_price": "499",
 "qty": null,
-"date": "11/17 繳庫（自製品）"
+"date": "11/17 繳庫（自製品）",
+"state": "已到貨"
 },
 {
 "no": 8,
 "product": "造型地墊",
 "dm_price": "399",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 9,
 "product": "甜甜圈旅行枕",
 "dm_price": "599",
 "qty": null,
-"date": null
+"date": null,
+"state": "已出貨",
+"eta": "2026-11-27",
+"eta_note": ""
 },
 {
 "no": 10,
 "product": "晴雨折疊自動傘",
 "dm_price": "499",
 "qty": 600,
-"date": "11/13"
+"date": "11/13",
+"state": "已到貨"
 },
 {
 "no": 11,
 "product": "車用頸枕",
 "dm_price": "399",
 "qty": null,
-"date": null
+"date": null,
+"state": "生產中",
+"eta": "2026-12-10",
+"eta_note": "11/25 完成，12/3 裝櫃海運"
 },
 {
 "no": 12,
 "product": "汽車遮陽板",
 "dm_price": "299",
 "qty": 450,
-"date": "11/11 到 400、11/12 到 50"
+"date": "11/11 到 400、11/12 到 50",
+"state": "已到貨"
 },
 {
 "no": 13,
 "product": "護腕滑鼠墊",
 "dm_price": "299",
 "qty": 500,
-"date": "11/10"
+"date": "11/10",
+"state": "已到貨"
 },
 {
 "no": 14,
 "product": "造型保溫瓶 粉色",
 "dm_price": "799",
 "qty": 1000,
-"date": "11/13"
+"date": "11/13",
+"state": "已到貨"
 },
 {
 "no": 15,
 "product": "造型保溫瓶 藍色",
 "dm_price": "799",
 "qty": 1000,
-"date": "11/13"
+"date": "11/13",
+"state": "已到貨"
 },
 {
 "no": 16,
 "product": "立體造型餐盤 Pingu",
 "dm_price": "399",
 "qty": null,
-"date": null
+"date": null,
+"state": "FDA 報驗中",
+"eta": null,
+"eta_note": "已到臺灣"
 },
 {
 "no": 17,
 "product": "立體造型餐盤 Pinga",
 "dm_price": "399",
 "qty": null,
-"date": null
+"date": null,
+"state": "FDA 報驗中",
+"eta": null,
+"eta_note": "已到臺灣"
 },
 {
 "no": 18,
 "product": "立體躺平餐盤 Pingu",
 "dm_price": "加價購 399",
 "qty": null,
-"date": null
+"date": null,
+"state": "FDA 報驗中",
+"eta": null,
+"eta_note": "已到臺灣"
 },
 {
 "no": 19,
 "product": "立體躺平餐盤 Pinga",
 "dm_price": "加價購 399",
 "qty": null,
-"date": null
+"date": null,
+"state": "FDA 報驗中",
+"eta": null,
+"eta_note": "已到臺灣"
 },
 {
 "no": 20,
 "product": "2.8L主廚造型陶鍋七件組",
 "dm_price": "1999",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 21,
 "product": "縫隙彈蓋垃圾桶 奶油白",
 "dm_price": "699",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 22,
 "product": "縫隙彈蓋垃圾桶 復古紅",
 "dm_price": "699",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 23,
 "product": "吐司機免打孔掛勾 紅色",
 "dm_price": "149",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 24,
 "product": "吐司機免打孔掛勾 黃色",
 "dm_price": "149",
 "qty": null,
-"date": null
+"date": null,
+"state": "未定",
+"eta": null,
+"eta_note": ""
 },
 {
 "no": 25,
 "product": "珊瑚絨擦手巾 Pingu",
 "dm_price": "199",
 "qty": null,
-"date": null
+"date": null,
+"state": "重新報驗中",
+"eta": "2026-11-27",
+"eta_note": "已到臺灣"
 },
 {
 "no": 26,
 "product": "珊瑚絨擦手巾 Pinga",
 "dm_price": "199",
 "qty": null,
-"date": null
+"date": null,
+"state": "重新報驗中",
+"eta": "2026-11-27",
+"eta_note": "已到臺灣"
 },
 {
 "no": 27,
 "product": "復古波點髮夾2入組",
 "dm_price": "199",
 "qty": null,
-"date": null
+"date": null,
+"state": "待出貨",
+"eta": "2026-12-06",
+"eta_note": "11/26 出貨，海快"
 },
 {
 "no": 28,
 "product": "萌趣角色髮夾3入組",
 "dm_price": "199",
 "qty": null,
-"date": null
+"date": null,
+"state": "待出貨",
+"eta": "2026-12-06",
+"eta_note": "11/26 出貨，海快"
 },
 {
 "no": 29,
 "product": "蕾絲格紋髮圈",
 "dm_price": "249",
 "qty": null,
-"date": null
+"date": null,
+"state": "已出貨",
+"eta": "2026-12-01",
+"eta_note": "11/21 出貨，海快"
 },
 {
 "no": 30,
 "product": "法式拼接髮圈",
 "dm_price": "249",
 "qty": null,
-"date": null
+"date": null,
+"state": "已出貨",
+"eta": "2026-12-01",
+"eta_note": "11/21 出貨，海快"
 }
 ],
-"arrivals_note": "立體躺平餐盤為小七集點卡加價購商品。"
+"arrivals_note": "立體躺平餐盤為小七集點卡加價購商品。",
+"eta_asof": "2026-11-20"
 }
 ]

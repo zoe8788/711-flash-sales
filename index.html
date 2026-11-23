@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=5057e037').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=9e139356').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -215,6 +215,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-arr td.num,.fs-arr th.num{text-align:right}
 .fs-arr .st{display:inline-block;padding:1px 8px;border-radius:999px;font-size:var(--cds-font-size-caption);border:1px solid var(--color-border-line);white-space:nowrap}
 .fs-arr .st.ok{color:var(--color-ok);border-color:var(--color-ok)}
+.fs-arr .st.bad{color:var(--color-bad);border-color:var(--color-bad)}
+.fs-arr td small{display:block;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
 .fs-arr .st.wait{color:var(--color-warn);border-color:var(--color-warn)}
 .fs-arr .fs-tbox{max-height:none}
 .fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
@@ -324,7 +326,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     <h2>到貨進度</h2>
     <p class="fs-note" id="arr-note"></p>
     <div class="fs-arr-sum" id="arr-sum"></div>
-    <div class="fs-tbox"><table data-source="campaigns"><thead><tr><th>#</th><th>商品</th><th class="num">DM 售價</th><th class="num">已到貨</th><th>到貨日</th><th>狀態</th></tr></thead><tbody id="arr-body"></tbody></table></div>
+    <div class="fs-tbox"><table data-source="campaigns"><thead><tr><th>#</th><th>商品</th><th class="num">DM 售價</th><th class="num">已到貨</th><th>到貨日／預計到貨</th><th>狀態</th></tr></thead><tbody id="arr-body"></tbody></table></div>
   </section>
   <dialog id="dm-dialog" class="fs-dlg"><button class="fs-btn fs-dlg-x" aria-label="關閉">✕ 關閉</button><img alt="活動 DM"></dialog>
 
@@ -714,10 +716,21 @@ function draw(){
    const arr=camp&&Array.isArray(camp.arrivals)?camp.arrivals:[];
    if(arr.length){
      const done=arr.filter((a)=>a.date),units=d3.sum(arr,(a)=>a.qty||0);
-     $('#arr-note').textContent=`依「我適Pingu」到貨表整理，${camp.arrivals_asof?longDate(camp.arrivals_asof)+' 更新':''}。DM 售價為快閃購價。${camp.arrivals_note?' '+camp.arrivals_note:''}`;
-     [[`${done.length}／${arr.length}`,'項已到貨'],[fInt(units),'件已到貨'],[String(arr.length-done.length),'項尚未到貨']].forEach(([v,l])=>{const d=el('div');d.append(el('b',null,v),el('span',null,l));sm.append(d);});
-     arr.forEach((a)=>{const tr=el('tr');const st=el('span','st '+(a.date?'ok':'wait'),a.date?'已到貨':'未到貨');const td=el('td');td.append(st);
-       tr.append(el('td',null,String(a.no)),el('td',null,a.product),el('td','num',a.dm_price?(/^\d+$/.test(a.dm_price)?'$'+fInt(+a.dm_price):a.dm_price):'—'),el('td','num',a.qty!=null?fInt(a.qty):(a.date?'—':'')),el('td',null,a.date||'—'),td);tb.append(tr);});
+     const open=camp.start?parse(camp.start):null;
+     const late=arr.filter((a)=>!a.date&&a.eta&&open&&parse(a.eta)>=open);
+     const noEta=arr.filter((a)=>!a.date&&!a.eta);
+     $('#arr-note').textContent=`依「我適Pingu」到貨表（${camp.arrivals_asof?md(parse(camp.arrivals_asof)):''}）與商品會議記錄的大貨時程（${camp.eta_asof?md(parse(camp.eta_asof)):''}）整理。DM 售價為快閃購價。${camp.arrivals_note?' '+camp.arrivals_note:''}`;
+     [[`${done.length}／${arr.length}`,'項已到貨',''],[fInt(units),'件已到貨',''],[String(late.length),'項預計開賣當天或之後才到','bad'],[String(noEta.length),'項還沒有預計到貨日','warn']].forEach(([v,l,cl])=>{const d=el('div');const b=el('b',null,v);if(cl&&+v>0)b.className=cl==='bad'?'fs-bad':'fs-warn';b.style.color=cl&&+v>0?`var(--color-${cl})`:'';d.append(b,el('span',null,l));sm.append(d);});
+     arr.forEach((a)=>{const tr=el('tr');
+       const isLate=!a.date&&a.eta&&open&&parse(a.eta)>=open;
+       const cls=a.date?'ok':isLate?'bad':'wait';
+       const st=el('span','st '+cls,(a.state||(a.date?'已到貨':'未到貨'))+(isLate?'・晚於開賣':''));const td=el('td');td.append(st);
+       const dt=el('td');
+       if(a.date)dt.append(a.date);
+       else if(a.eta){dt.append('預計 '+md(parse(a.eta)));}
+       else dt.append('—');
+       if(a.eta_note){dt.append(el('small',null,a.eta_note));}
+       tr.append(el('td',null,String(a.no)),el('td',null,a.product),el('td','num',a.dm_price?(/^\d+$/.test(a.dm_price)?'$'+fInt(+a.dm_price):a.dm_price):'—'),el('td','num',a.qty!=null?fInt(a.qty):(a.date?'—':'')),dt,td);tb.append(tr);});
    }
    sec.hidden=!arr.length;}
   const rm=$('#remarks');rm.replaceChildren();
