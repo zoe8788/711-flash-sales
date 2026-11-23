@@ -33,7 +33,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     resetParams(){},setLink(){},refresh(){}};
   function run(){cbs.forEach((f)=>{try{f();}catch(e){console.error(e);}});}
   let w=window.innerWidth;window.addEventListener('resize',()=>{if(Math.abs(window.innerWidth-w)>20){w=window.innerWidth;run();}});
-  fetch('data/data.json?v=6259d4ee').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
+  fetch('data/data.json?v=dc80e6f0').then((r)=>r.json()).then((d)=>{DATA=d;status='ok';cache={};run();}).catch(()=>{status='error';run();});
 })();
 </script></head><body><div id="dash-root"><style>
 #dash-root [hidden]{display:none!important}
@@ -205,6 +205,18 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .fs-pend0{color:var(--color-fg-muted)}
 #detail.no-stock .fs-col-pend{display:none}
 .fs-ord-sub{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);white-space:nowrap}
+.fs-arr h2{margin:0 0 4px}
+.fs-arr .fs-arr-sum{display:flex;flex-wrap:wrap;gap:var(--cds-gap-lg);margin:var(--cds-gap-sm) 0 var(--cds-gap-md)}
+.fs-arr .fs-arr-sum b{display:block;font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title)}
+.fs-arr .fs-arr-sum span{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.fs-arr table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-body);font-variant-numeric:tabular-nums}
+.fs-arr th,.fs-arr td{padding:7px 10px;border-bottom:1px solid var(--color-border-line);text-align:left;vertical-align:top}
+.fs-arr th{color:var(--color-fg-muted);font-weight:var(--cds-font-weight-medium);font-size:var(--cds-font-size-caption)}
+.fs-arr td.num,.fs-arr th.num{text-align:right}
+.fs-arr .st{display:inline-block;padding:1px 8px;border-radius:999px;font-size:var(--cds-font-size-caption);border:1px solid var(--color-border-line);white-space:nowrap}
+.fs-arr .st.ok{color:var(--color-ok);border-color:var(--color-ok)}
+.fs-arr .st.wait{color:var(--color-warn);border-color:var(--color-warn)}
+.fs-arr .fs-tbox{max-height:none}
 .fs-remarks{margin-top:var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border-left:3px solid var(--color-warn);background:var(--color-bg);border-radius:4px;font-size:var(--cds-font-size-body)}
 .fs-remarks b{font-weight:var(--cds-font-weight-medium);margin-right:6px}
 .fs-ifoot{margin:var(--cds-gap-md) 0 0;font-size:var(--cds-font-size-body);color:var(--color-fg-muted)}
@@ -307,6 +319,12 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <div id="nodata" class="fs-empty" hidden>這一檔還沒有銷售資料。<br>把銷售紀錄截圖或表格給 Claude，就能補上分析。</div>
     </div>
     <div id="c-dmimg" class="fs-dmimgs" data-source="dmimg" hidden></div>
+  </section>
+  <section class="fs-card fs-arr" id="arrivals" hidden>
+    <h2>到貨進度</h2>
+    <p class="fs-note" id="arr-note"></p>
+    <div class="fs-arr-sum" id="arr-sum"></div>
+    <div class="fs-tbox"><table data-source="campaigns"><thead><tr><th>#</th><th>商品</th><th class="num">DM 售價</th><th class="num">已到貨</th><th>到貨日</th><th>狀態</th></tr></thead><tbody id="arr-body"></tbody></table></div>
   </section>
   <dialog id="dm-dialog" class="fs-dlg"><button class="fs-btn fs-dlg-x" aria-label="關閉">✕ 關閉</button><img alt="活動 DM"></dialog>
 
@@ -691,6 +709,17 @@ function draw(){
   }
   $('#retail-card').hidden=!rrows.length;
   drawWeekly(camp,sel);
+  // 到貨進度
+  {const sec=$('#arrivals'),tb=$('#arr-body'),sm=$('#arr-sum');tb.replaceChildren();sm.replaceChildren();
+   const arr=camp&&Array.isArray(camp.arrivals)?camp.arrivals:[];
+   if(arr.length){
+     const done=arr.filter((a)=>a.date),units=d3.sum(arr,(a)=>a.qty||0);
+     $('#arr-note').textContent=`依「我適Pingu」到貨表整理，${camp.arrivals_asof?longDate(camp.arrivals_asof)+' 更新':''}。DM 售價為快閃購價。${camp.arrivals_note?' '+camp.arrivals_note:''}`;
+     [[`${done.length}／${arr.length}`,'項已到貨'],[fInt(units),'件已到貨'],[String(arr.length-done.length),'項尚未到貨']].forEach(([v,l])=>{const d=el('div');d.append(el('b',null,v),el('span',null,l));sm.append(d);});
+     arr.forEach((a)=>{const tr=el('tr');const st=el('span','st '+(a.date?'ok':'wait'),a.date?'已到貨':'未到貨');const td=el('td');td.append(st);
+       tr.append(el('td',null,String(a.no)),el('td',null,a.product),el('td','num',a.dm_price?(/^\d+$/.test(a.dm_price)?'$'+fInt(+a.dm_price):a.dm_price):'—'),el('td','num',a.qty!=null?fInt(a.qty):(a.date?'—':'')),el('td',null,a.date||'—'),td);tb.append(tr);});
+   }
+   sec.hidden=!arr.length;}
   const rm=$('#remarks');rm.replaceChildren();
   const rms=camp&&Array.isArray(camp.remarks)?camp.remarks:[];
   rms.forEach((t)=>{const d=el('div');d.append(el('b',null,'備註'),String(t));rm.append(d);});
