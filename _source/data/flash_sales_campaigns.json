@@ -224,159 +224,138 @@
 },
 {
 "no": 12,
-"product": "車用安全帶護套2入組",
-"dm_price": null,
-"qty": null,
-"date": null
-},
-{
-"no": 13,
 "product": "汽車遮陽板",
 "dm_price": "299",
 "qty": 450,
 "date": "11/11 到 400、11/12 到 50"
 },
 {
-"no": 14,
+"no": 13,
 "product": "護腕滑鼠墊",
 "dm_price": "299",
 "qty": 500,
 "date": "11/10"
 },
 {
-"no": 15,
+"no": 14,
 "product": "造型保溫瓶 粉色",
 "dm_price": "799",
 "qty": 1000,
 "date": "11/13"
 },
 {
-"no": 16,
+"no": 15,
 "product": "造型保溫瓶 藍色",
 "dm_price": "799",
 "qty": 1000,
 "date": "11/13"
 },
 {
-"no": 17,
+"no": 16,
 "product": "立體造型餐盤 Pingu",
 "dm_price": "399",
 "qty": null,
 "date": null
 },
 {
-"no": 18,
+"no": 17,
 "product": "立體造型餐盤 Pinga",
 "dm_price": "399",
 "qty": null,
 "date": null
 },
 {
-"no": 19,
+"no": 18,
 "product": "立體躺平餐盤 Pingu",
 "dm_price": "加價購 399",
 "qty": null,
 "date": null
 },
 {
-"no": 20,
+"no": 19,
 "product": "立體躺平餐盤 Pinga",
 "dm_price": "加價購 399",
 "qty": null,
 "date": null
 },
 {
-"no": 21,
+"no": 20,
 "product": "2.8L主廚造型陶鍋七件組",
 "dm_price": "1999",
 "qty": null,
 "date": null
 },
 {
-"no": 22,
+"no": 21,
 "product": "縫隙彈蓋垃圾桶 奶油白",
 "dm_price": "699",
 "qty": null,
 "date": null
 },
 {
-"no": 23,
+"no": 22,
 "product": "縫隙彈蓋垃圾桶 復古紅",
 "dm_price": "699",
 "qty": null,
 "date": null
 },
 {
-"no": 24,
+"no": 23,
 "product": "吐司機免打孔掛勾 紅色",
 "dm_price": "149",
 "qty": null,
 "date": null
 },
 {
-"no": 25,
+"no": 24,
 "product": "吐司機免打孔掛勾 黃色",
 "dm_price": "149",
 "qty": null,
 "date": null
 },
 {
-"no": 26,
+"no": 25,
 "product": "珊瑚絨擦手巾 Pingu",
 "dm_price": "199",
 "qty": null,
 "date": null
 },
 {
-"no": 27,
+"no": 26,
 "product": "珊瑚絨擦手巾 Pinga",
 "dm_price": "199",
 "qty": null,
 "date": null
 },
 {
-"no": 28,
-"product": "磁吸趴姿絨毛玩偶",
-"dm_price": null,
-"qty": null,
-"date": null
-},
-{
-"no": 29,
-"product": "宅在家絨毛吊飾",
-"dm_price": null,
-"qty": null,
-"date": null
-},
-{
-"no": 30,
+"no": 27,
 "product": "復古波點髮夾2入組",
 "dm_price": "199",
 "qty": null,
 "date": null
 },
 {
-"no": 31,
+"no": 28,
 "product": "萌趣角色髮夾3入組",
 "dm_price": "199",
 "qty": null,
 "date": null
 },
 {
-"no": 32,
+"no": 29,
 "product": "蕾絲格紋髮圈",
 "dm_price": "249",
 "qty": null,
 "date": null
 },
 {
-"no": 33,
+"no": 30,
 "product": "法式拼接髮圈",
 "dm_price": "249",
 "qty": null,
 "date": null
 }
 ],
-"arrivals_note": "立體躺平餐盤為小七集點卡加價購商品；車用安全帶護套、磁吸趴姿絨毛玩偶、宅在家絨毛吊飾不在 DM 上。"
+"arrivals_note": "立體躺平餐盤為小七集點卡加價購商品。"
 }
 ]
